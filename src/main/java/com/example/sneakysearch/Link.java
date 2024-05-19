@@ -1,5 +1,5 @@
 package com.example.sneakysearch;
 
-public class Link {
+public final class Link {
     private String Url;
 }

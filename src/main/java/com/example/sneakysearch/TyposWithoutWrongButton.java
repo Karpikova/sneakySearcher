@@ -3,18 +3,17 @@ package com.example.sneakysearch;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TyposWithoutWrongButtonMy implements Typos {
+public final class TyposWithoutWrongButton implements Typos {
 
     private final String initialWord;
 
-    public TyposWithoutWrongButtonMy(String initialWord) {
+    public TyposWithoutWrongButton(String initialWord) {
         this.initialWord = initialWord;
     }
-
     @Override
     public Set<String> value() {
 
-        HashSet<String> typoWords = new HashSet<>();
+        Set<String> typoWords = new HashSet<>();
 
         StringBuilder wordSb = new StringBuilder();
         for (int i = 0; i < initialWord.length(); i++) {
@@ -34,6 +33,7 @@ public class TyposWithoutWrongButtonMy implements Typos {
                     .append(initialWord.substring(i + 2))
                     .toString());
         }
+        typoWords.add(initialWord);
         return typoWords;
     }
 }

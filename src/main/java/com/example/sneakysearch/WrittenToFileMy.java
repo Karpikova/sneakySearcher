@@ -2,20 +2,20 @@ package com.example.sneakysearch;
 
 import java.util.Set;
 
-public class WrittenToFileMy implements WrittenToFile {
-    private FoundFromWeb foundFromWeb;
+public final class WrittenToFileMy implements WrittenToFile {
+    private final FoundFromWebByAllTypoVariants foundFromWebByAllTypoVariants;
 
-    public WrittenToFileMy(FoundFromWeb foundFromWeb) {
-        this.foundFromWeb = foundFromWeb;
+    public WrittenToFileMy(FoundFromWebByAllTypoVariants foundFromWebByAllTypoVariants) {
+        this.foundFromWebByAllTypoVariants = foundFromWebByAllTypoVariants;
     }
 
     public WrittenToFileMy(String word) {
-        this(new FoundFromWebMy(word));
+        this(new FoundFromWebByAllTypoVariantsMy(word));
     }
 
     @Override
     public void writeToFile() {
-        Set<String> links = foundFromWeb.foundFromWeb();
-        System.out.println(links);
+        Set<ResultLink> result = foundFromWebByAllTypoVariants.foundFromWeb();
+        System.out.println(result.size());
     }
 }

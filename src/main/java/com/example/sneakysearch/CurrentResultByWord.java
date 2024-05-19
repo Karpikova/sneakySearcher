@@ -2,7 +2,7 @@ package com.example.sneakysearch;
 
 import java.util.List;
 
-public class CurrentResultByWord {
+public final class CurrentResultByWord {
     private String wordVariant;
     private List<Link> links;
 }

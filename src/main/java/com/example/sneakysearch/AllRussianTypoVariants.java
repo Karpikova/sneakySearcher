@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AllRussianTypoVariants implements JointTypos {
-    private List<Typos> typos;
+public final class AllRussianTypoVariants implements JointTypos {
+    private final List<Typos> typos;
 
     public AllRussianTypoVariants(List<Typos> typos) {
         this.typos = typos;

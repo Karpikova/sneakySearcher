@@ -5,13 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RussianKeyboard implements Keyboard {
+public final class RussianKeyboard implements Keyboard {
 
-    //а судьи кто? а поле где?
+    private final Map<String, List<String>> lettersWithNeighbours;
 
-    @Override
-    public Map<String, List<String>> value() {
-        return new HashMap<>(){{
+    public RussianKeyboard(Map<String, List<String>> lettersWithNeighbours) {
+        this.lettersWithNeighbours = lettersWithNeighbours;
+    }
+
+    public RussianKeyboard() {
+        this(new HashMap<>(){{
             put("й", Arrays.asList("ц", "ы", "ф"));
             put("ц", Arrays.asList("у", "ы", "ф", "й"));
             put("у", Arrays.asList("к", "в", "ы", "ц"));
@@ -46,7 +49,11 @@ public class RussianKeyboard implements Keyboard {
             put("ь", Arrays.asList("т", "о", "л", "б"));
             put("б", Arrays.asList("ь", "л", "д", "ю"));
             put("ю", Arrays.asList("б", "д", "ж"));
-        }};
+        }});
+    }
 
+    @Override
+    public Map<String, List<String>> lettersWithNeighbours() {
+        return lettersWithNeighbours;
     }
 }
