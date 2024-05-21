@@ -11,9 +11,9 @@ import java.io.IOException;
 @Controller
 public class SearchController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String doSearch(@RequestParam(value = "story") String word) throws SneakySearchException {
-        WrittenToFile writtenToFile = new WrittenToFileMy(word); //привести к нижнему регистру
-        writtenToFile.writeToFile();
+    public String doSearch(@RequestParam(value = "word") String word) throws SneakySearchException {
+//        WrittenToFile writtenToFile = new WrittenToFileMy(word); //привести к нижнему регистру
+//        writtenToFile.writeToFile();
         return "result";
     }
 

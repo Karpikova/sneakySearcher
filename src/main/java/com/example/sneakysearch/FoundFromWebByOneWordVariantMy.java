@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
     private static final Logger LOGGER = LogManager.getLogger(FoundFromWebByOneWordVariantMy.class);
-    private final static String BASE_URL = "";
+    private final static String BASE_URL = "https://zakupki.gov.ru";
     private final static String SEARCH_BASE_URL = "/epz/order/extendedsearch/results.html?";
     private final static String ALL_ELEMENTS_TAG = "div.search-registry-entry-block";
     private final static String PURCHASE_OBJECT_TAG = "div.registry-entry__body-value";
