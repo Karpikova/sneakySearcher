@@ -2,14 +2,15 @@ package com.example.sneakysearch;
 
 import java.util.Objects;
 
-//equals и hashcode ведь бодльше не нужны?
 public class ResultPurchaseObject implements ResultLink {
+    private String searchedWord;
     private String purchaseObject;
     private String number;
     private String customer;
     private String link;
 
-    public ResultPurchaseObject(String purchaseObject, String number, String customer, String link) {
+    public ResultPurchaseObject(String searchedWord, String purchaseObject, String number, String customer, String link) {
+        this.searchedWord = searchedWord;
         this.purchaseObject = purchaseObject;
         this.number = number;
         this.customer = customer;
@@ -27,6 +28,11 @@ public class ResultPurchaseObject implements ResultLink {
     @Override
     public int hashCode() {
         return Objects.hash(link);
+    }
+
+    @Override
+    public String searchedWord() {
+        return searchedWord;
     }
 
     public String purchaseObject() {

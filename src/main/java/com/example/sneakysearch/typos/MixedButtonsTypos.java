@@ -1,28 +1,18 @@
-package com.example.sneakysearch;
+package com.example.sneakysearch.typos;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public final class TyposWithoutWrongButton implements Typos {
+public final class MixedButtonsTypos implements Typos {
 
     private final String initialWord;
 
-    public TyposWithoutWrongButton(String initialWord) {
+    public MixedButtonsTypos(String initialWord) {
         this.initialWord = initialWord;
     }
     @Override
     public Set<String> value() {
-
         Set<String> typoWords = new HashSet<>();
-
-        StringBuilder wordSb = new StringBuilder();
-        for (int i = 0; i < initialWord.length(); i++) {
-            new Typos.Smart().resetStringBuilder(wordSb, initialWord);
-            String letter = initialWord.substring(i, i + 1);
-            typoWords.add(wordSb.insert(i, letter).toString());
-            typoWords.add(new StringBuilder()//проверь алгоритм
-                    .append(initialWord.substring(0, i)).append(initialWord.substring(i + 1)).toString());
-        }
         for (int i = 0; i < initialWord.length() - 1; i++) {
             String letterFirst = initialWord.substring(i, i + 1);
             String letterSecond = initialWord.substring(i + 1, i + 2);
@@ -33,7 +23,7 @@ public final class TyposWithoutWrongButton implements Typos {
                     .append(initialWord.substring(i + 2))
                     .toString());
         }
-        typoWords.add(initialWord);
+        typoWords.stream().forEach(a-> System.out.println(a));
         return typoWords;
     }
 }

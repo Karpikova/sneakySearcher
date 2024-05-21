@@ -1,13 +1,13 @@
-package com.example.sneakysearch;
+package com.example.sneakysearch.typos;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public final class AllRussianTypoVariants implements JointTypos {
+public final class AllTypos implements JointTypos {
     private final List<Typos> typos;
 
-    public AllRussianTypoVariants(List<Typos> typos) {
+    public AllTypos(List<Typos> typos) {
         this.typos = typos;
     }
 

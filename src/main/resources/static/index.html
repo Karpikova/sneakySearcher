@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -9,9 +10,10 @@
     <div class="formcontainer">
         <hr/>
         <div class="container">
-            <input type="text" placeholder="Введите одно слово" name="word" required>
+            <textarea id="story" name="word" rows="5" cols="50" th:placeholder="${@environment.getProperty('spring.application.name')}"
+                      autocomplete="on" minlength="3" required autofocus></textarea>
         </div>
-        <button type="submit">Пуск</button>
+        <button type="submit">Пуск ${@environment.getProperty('spring.application.name')}</button>
         <div class="container" style="background-color: #eee">
             <label style="padding-left: 15px">
         </div>

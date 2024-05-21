@@ -11,8 +11,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class FoundFromWebByOneWordFormMy implements FoundFromWebByWord {
-    private static final Logger LOGGER = LogManager.getLogger(FoundFromWebByOneWordFormMy.class);
+public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
+    private static final Logger LOGGER = LogManager.getLogger(FoundFromWebByOneWordVariantMy.class);
     private final static String BASE_URL = "";
     private final static String SEARCH_BASE_URL = "/epz/order/extendedsearch/results.html?";
     private final static String ALL_ELEMENTS_TAG = "div.search-registry-entry-block";
@@ -27,7 +27,7 @@ public class FoundFromWebByOneWordFormMy implements FoundFromWebByWord {
     private int count;
     private int pageNumber = 1;
 
-    public FoundFromWebByOneWordFormMy(String word) {
+    public FoundFromWebByOneWordVariantMy(String word) {
         this.word = word;
     }
 
@@ -71,7 +71,7 @@ public class FoundFromWebByOneWordFormMy implements FoundFromWebByWord {
         String number = purchase.select(PURCHASE_NUMBER_TAG).text();
         String customer = purchase.select(PURCHASE_CUSTOMER_TAG).text();
         String link = BASE_URL + purchase.select(LINK_TAG).first().attr("href");
-        ResultPurchaseObject result = new ResultPurchaseObject(purchaseObject, number, customer, link);
+        ResultPurchaseObject result = new ResultPurchaseObject(word, purchaseObject, number, customer, link);
         resultSet.add(result);
         printToConsole(result);
     }

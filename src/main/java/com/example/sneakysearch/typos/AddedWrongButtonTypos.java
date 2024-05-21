@@ -1,16 +1,16 @@
-package com.example.sneakysearch;
+package com.example.sneakysearch.typos;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class TyposWithWrongButton implements Typos {
+public final class AddedWrongButtonTypos implements Typos {
 
     private final String initialWord;
     private final Keyboard keyboard;
 
-    public TyposWithWrongButton(String initialWord, Keyboard keyboard) {
+    public AddedWrongButtonTypos(String initialWord, Keyboard keyboard) {
         this.initialWord = initialWord;
         this.keyboard = keyboard;
     }

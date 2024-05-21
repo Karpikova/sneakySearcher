@@ -1,4 +1,4 @@
-package com.example.sneakysearch;
+package com.example.sneakysearch.typos;
 
 import java.util.Set;
 

@@ -1,4 +1,4 @@
-package com.example.sneakysearch;
+package com.example.sneakysearch.typos;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ public final class RussianKeyboard implements Keyboard {
     }
 
     public RussianKeyboard() {
-        this(new HashMap<>(){{
+        this(new HashMap<>(){{ //TODO подумать, что будет при непопадании
             put("й", Arrays.asList("ц", "ы", "ф"));
             put("ц", Arrays.asList("у", "ы", "ф", "й"));
             put("у", Arrays.asList("к", "в", "ы", "ц"));
