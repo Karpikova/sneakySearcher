@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" th:href="@{/style.css}">
 </head>
 <body>
 
@@ -10,17 +10,10 @@
     <div class="formcontainer">
         <hr/>
         <div class="container">
-            <textarea name="word" rows="5" cols="50" th:placeholder="${@environment.getProperty('someParameter.value')}"
+            <textarea name="word" rows="5" cols="50" th:text="${@environment.getProperty('vaccines')}"
                       autocomplete="on" minlength="3" required autofocus></textarea>
         </div>
-        <p th:text="${@environment.getProperty('someParameter.value')}"></p>
-        <p th:text="ghyy"></p>
-
         <button type="submit">Пуск</button>
-        <div class="container" style="background-color: #eee">
-            <label style="padding-left: 15px">
-        </div>
-
     </div>
 </form>
 </body>

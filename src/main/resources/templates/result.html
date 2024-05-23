@@ -2,12 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="/static/style.css" th:href="@{/style.css}">
 </head>
 <body>
 <span>Я запустил обработчик. Ждите результат в папке загрузок.</span>
-<p th:text="${@environment.getProperty('someParameter.value')}"></p>
-<p th:text="ghyy"></p>
-
 </body>
 </html>
