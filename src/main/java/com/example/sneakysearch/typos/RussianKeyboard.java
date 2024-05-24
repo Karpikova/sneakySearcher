@@ -49,6 +49,18 @@ public final class RussianKeyboard implements Keyboard {
             put("ь", Arrays.asList("т", "о", "л", "б"));
             put("б", Arrays.asList("ь", "л", "д", "ю"));
             put("ю", Arrays.asList("б", "д", "ж"));
+
+            put("1", Arrays.asList());
+            put("2", Arrays.asList());
+            put("3", Arrays.asList());
+            put("4", Arrays.asList());
+            put("5", Arrays.asList());
+            put("6", Arrays.asList());
+            put("7", Arrays.asList());
+            put("8", Arrays.asList());
+            put("9", Arrays.asList());
+            put("0", Arrays.asList());
+
         }});
     }
 
