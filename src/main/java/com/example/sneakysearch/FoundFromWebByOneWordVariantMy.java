@@ -24,7 +24,6 @@ public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
     private final static int MAX_TRY_COUNT_OF_MISTAKEN_PAGES = 10;
     private final String word;
     private int counter;
-    private int count;
     private int pageNumber = 1;
 
     public FoundFromWebByOneWordVariantMy(String word) {
@@ -45,7 +44,7 @@ public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
                 if (select.isEmpty()) {
                     endOfSearchIsAchieved = true;
                 } else {
-                    count = processSelect(select, result);
+                    processSelect(select, result);
                 }
             } else {
                 tryCountCommon++;
@@ -56,13 +55,11 @@ public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
         return result;
     }
 
-    private int processSelect(Elements select, Set<ResultLink> resultSet) {
+    private void processSelect(Elements select, Set<ResultLink> resultSet) {
         for (Element purchase : select) {
             createResult(purchase, resultSet);
-            count++;
         }
         pageNumber++;
-        return count;
     }
 
     private void createResult(Element purchase, Set<ResultLink> resultSet) {

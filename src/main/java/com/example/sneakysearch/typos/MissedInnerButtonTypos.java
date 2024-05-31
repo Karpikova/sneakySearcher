@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class MissedInnerButtonTypos implements Typos {
-
     private final String initialWord;
 
     public MissedInnerButtonTypos(String initialWord) {

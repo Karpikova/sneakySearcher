@@ -4,12 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class MixedButtonsTypos implements Typos {
-
     private final String initialWord;
 
     public MixedButtonsTypos(String initialWord) {
         this.initialWord = initialWord;
     }
+
     @Override
     public Set<String> value() {
         Set<String> typoWords = new HashSet<>();
@@ -23,7 +23,7 @@ public final class MixedButtonsTypos implements Typos {
                     .append(initialWord.substring(i + 2))
                     .toString());
         }
-        typoWords.stream().forEach(a-> System.out.println(a));
+        typoWords.stream().forEach(a -> System.out.println(a));
         return typoWords;
     }
 }
