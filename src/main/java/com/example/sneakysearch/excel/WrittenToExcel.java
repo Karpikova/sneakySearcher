@@ -2,8 +2,8 @@ package com.example.sneakysearch.excel;
 
 import com.example.sneakysearch.FoundFromWebByOneWordAllTypoVariants;
 import com.example.sneakysearch.FoundFromWebByOneWordAllTypoVariantsMy;
-import com.example.sneakysearch.WrittenToFile;
 import com.example.sneakysearch.result.PurchaseObject;
+import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -39,7 +39,8 @@ public final class WrittenToExcel implements WrittenToFile {
 
     @Override
     public void writeToFile() {
-        Set<ResultLink> resultLinks = foundFromWebByOneWordAllTypoVariants.foundFromWeb();
+        Result result = foundFromWebByOneWordAllTypoVariants.foundFromWeb();
+        Set<ResultLink> resultLinks = result.resultLinks();
         Sheet sheet = workbook.createSheet("Result");
         createHeaderRow(workbook, sheet, headers.headers());
 

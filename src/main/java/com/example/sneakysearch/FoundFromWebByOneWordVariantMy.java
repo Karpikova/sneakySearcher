@@ -1,8 +1,11 @@
 package com.example.sneakysearch;
 
 import com.example.sneakysearch.result.PurchaseObject;
+import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
 import com.example.sneakysearch.result.ResultLinkWithPurchaseObject;
+import com.example.sneakysearch.result.ResultMy;
+import com.example.sneakysearch.result.ToResultLink;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -10,7 +13,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -40,11 +42,12 @@ public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
     }
 
     @Override
-    public Set<ResultLink> foundFromWeb() {
+    public Result foundFromWeb() {
         System.out.println("Ищу " + word);
         int pageNumber = 1;
         Integer ordinal = 1;
-        Set<ResultLink> result = new HashSet<>();
+        ResultMy result = new ResultMy();
+        Set<ResultLink> resultLinks = result.resultLinks();
         Elements select;
         boolean endOfSearchIsAchieved = false;
         int tryCountCommon = 0;
@@ -55,7 +58,7 @@ public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
                 if (select.isEmpty()) {
                     endOfSearchIsAchieved = true;
                 } else {
-                    processSelect(select, result, ordinal);
+                    processSelect(select, resultLinks, ordinal);
                     pageNumber++;
                 }
             } else {

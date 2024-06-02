@@ -1,6 +1,4 @@
-package com.example.sneakysearch;
-
-import com.example.sneakysearch.result.ResultLink;
+package com.example.sneakysearch.result;
 
 public interface ToResultLink {
     ResultLink resultLink(String w, String name, String number, String customer, String link, int ordinal);

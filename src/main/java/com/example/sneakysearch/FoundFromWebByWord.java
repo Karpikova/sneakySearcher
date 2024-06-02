@@ -1,9 +1,7 @@
 package com.example.sneakysearch;
 
-import com.example.sneakysearch.result.ResultLink;
-
-import java.util.Set;
+import com.example.sneakysearch.result.Result;
 
 public interface FoundFromWebByWord {
-    Set<ResultLink> foundFromWeb();
+    Result foundFromWeb();
 }
