@@ -1,5 +1,6 @@
 package com.example.sneakysearch;
 
+import com.example.sneakysearch.result.ResultLink;
 import com.example.sneakysearch.typos.AddedWrongButtonTypos;
 import com.example.sneakysearch.typos.AllTypos;
 import com.example.sneakysearch.typos.DoubleButtonTypos;

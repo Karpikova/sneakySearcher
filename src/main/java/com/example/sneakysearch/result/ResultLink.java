@@ -1,4 +1,4 @@
-package com.example.sneakysearch;
+package com.example.sneakysearch.result;
 
 public interface ResultLink {
     PurchaseObject purchaseObject();

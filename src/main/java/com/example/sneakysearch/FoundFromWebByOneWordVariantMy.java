@@ -1,5 +1,8 @@
 package com.example.sneakysearch;
 
+import com.example.sneakysearch.result.PurchaseObject;
+import com.example.sneakysearch.result.ResultLink;
+import com.example.sneakysearch.result.ResultLinkWithPurchaseObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -23,9 +26,17 @@ public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
     private final static int MAX_TRY_COUNT_OF_ONE_PAGE = 10;
     private final static int MAX_TRY_COUNT_OF_MISTAKEN_PAGES = 10;
     private final String word;
+    private final ToResultLink toResultLink;
+
+    public FoundFromWebByOneWordVariantMy(String word, ToResultLink toResultLink) {
+        this.word = word;
+        this.toResultLink = toResultLink;
+    }
 
     public FoundFromWebByOneWordVariantMy(String word) {
-        this.word = word;
+        this(word,
+                (String w, String name, String number, String customer, String link, int ordinal)
+                        -> new ResultLinkWithPurchaseObject(w, name, number, customer, link, ordinal));
     }
 
     @Override
@@ -68,12 +79,12 @@ public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
         String number = purchase.select(PURCHASE_NUMBER_TAG).text();
         String customer = purchase.select(PURCHASE_CUSTOMER_TAG).text();
         String link = BASE_URL + purchase.select(LINK_TAG).first().attr("href");
-        ResultLinkWithPurchaseObject result = new ResultLinkWithPurchaseObject(word, name, number, customer, link, ordinal);
+        ResultLink result = toResultLink.resultLink(word, name, number, customer, link, ordinal);
         resultSet.add(result);
         printToConsole(result);
     }
 
-    private void printToConsole(ResultLinkWithPurchaseObject result) {
+    private void printToConsole(ResultLink result) {
         PurchaseObject purchaseObject = result.purchaseObject();
         System.out.println(result.ordinal() + ". " + purchaseObject.number());
         System.out.println("Объект закупки: " + purchaseObject.name());

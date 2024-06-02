@@ -2,9 +2,9 @@ package com.example.sneakysearch.excel;
 
 import com.example.sneakysearch.FoundFromWebByOneWordAllTypoVariants;
 import com.example.sneakysearch.FoundFromWebByOneWordAllTypoVariantsMy;
-import com.example.sneakysearch.PurchaseObject;
-import com.example.sneakysearch.ResultLink;
 import com.example.sneakysearch.WrittenToFile;
+import com.example.sneakysearch.result.PurchaseObject;
+import com.example.sneakysearch.result.ResultLink;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
