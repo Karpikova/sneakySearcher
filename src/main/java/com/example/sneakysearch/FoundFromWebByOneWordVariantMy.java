@@ -23,8 +23,6 @@ public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
     private final static int MAX_TRY_COUNT_OF_ONE_PAGE = 10;
     private final static int MAX_TRY_COUNT_OF_MISTAKEN_PAGES = 10;
     private final String word;
-    private int counter;
-    private int pageNumber = 1;
 
     public FoundFromWebByOneWordVariantMy(String word) {
         this.word = word;
@@ -33,6 +31,8 @@ public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
     @Override
     public Set<ResultLink> foundFromWeb() {
         System.out.println("Ищу " + word);
+        int pageNumber = 1;
+        Integer ordinal = 1;
         Set<ResultLink> result = new HashSet<>();
         Elements select;
         boolean endOfSearchIsAchieved = false;
@@ -44,7 +44,8 @@ public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
                 if (select.isEmpty()) {
                     endOfSearchIsAchieved = true;
                 } else {
-                    processSelect(select, result);
+                    processSelect(select, result, ordinal);
+                    pageNumber++;
                 }
             } else {
                 tryCountCommon++;
@@ -55,28 +56,28 @@ public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
         return result;
     }
 
-    private void processSelect(Elements select, Set<ResultLink> resultSet) {
+    private void processSelect(Elements select, Set<ResultLink> resultSet, Integer ordinal) {
         for (Element purchase : select) {
-            createResult(purchase, resultSet);
+            ordinal++;
+            createResult(purchase, resultSet, ordinal);
         }
-        pageNumber++;
     }
 
-    private void createResult(Element purchase, Set<ResultLink> resultSet) {
-        counter++;
-        String purchaseObject = purchase.select(PURCHASE_OBJECT_TAG).text();
+    private void createResult(Element purchase, Set<ResultLink> resultSet, int ordinal) {
+        String name = purchase.select(PURCHASE_OBJECT_TAG).text();
         String number = purchase.select(PURCHASE_NUMBER_TAG).text();
         String customer = purchase.select(PURCHASE_CUSTOMER_TAG).text();
         String link = BASE_URL + purchase.select(LINK_TAG).first().attr("href");
-        ResultPurchaseObject result = new ResultPurchaseObject(word, purchaseObject, number, customer, link);
+        ResultLinkWithPurchaseObject result = new ResultLinkWithPurchaseObject(word, name, number, customer, link, ordinal);
         resultSet.add(result);
         printToConsole(result);
     }
 
-    private void printToConsole(ResultPurchaseObject result) {
-        System.out.println(counter + ". " + result.number());
-        System.out.println("Объект закупки: " + result.purchaseObject());
-        System.out.println("Заказчик: " + result.customer());
+    private void printToConsole(ResultLinkWithPurchaseObject result) {
+        PurchaseObject purchaseObject = result.purchaseObject();
+        System.out.println(result.ordinal() + ". " + purchaseObject.number());
+        System.out.println("Объект закупки: " + purchaseObject.name());
+        System.out.println("Заказчик: " + purchaseObject.customer());
         System.out.println("Ссылка: " + BASE_URL + result.link());
         System.out.println("");
     }

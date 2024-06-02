@@ -2,6 +2,7 @@ package com.example.sneakysearch.excel;
 
 import com.example.sneakysearch.FoundFromWebByOneWordAllTypoVariants;
 import com.example.sneakysearch.FoundFromWebByOneWordAllTypoVariantsMy;
+import com.example.sneakysearch.PurchaseObject;
 import com.example.sneakysearch.ResultLink;
 import com.example.sneakysearch.WrittenToFile;
 import org.apache.poi.ss.usermodel.Cell;
@@ -22,24 +23,23 @@ public final class WrittenToExcel implements WrittenToFile {
     private final FoundFromWebByOneWordAllTypoVariants foundFromWebByOneWordAllTypoVariants;
     private final String fileName;
     private final Headers headers;
-    private final ToWorkbook toWorkbook;
+    private final Workbook workbook;
 
     public WrittenToExcel(FoundFromWebByOneWordAllTypoVariants foundFromWebByOneWordAllTypoVariants,
-                          String fileName, Headers headers, ToWorkbook toWorkbook) {
+                          String fileName, Headers headers, Workbook workbook) {
         this.foundFromWebByOneWordAllTypoVariants = foundFromWebByOneWordAllTypoVariants;
         this.fileName = fileName;
         this.headers = headers;
-        this.toWorkbook = toWorkbook;
+        this.workbook = workbook;
     }
 
     public WrittenToExcel(String word, String fileName, Headers headers) {
-        this(new FoundFromWebByOneWordAllTypoVariantsMy(word), fileName, headers, () -> new XSSFWorkbook());
+        this(new FoundFromWebByOneWordAllTypoVariantsMy(word), fileName, headers, new XSSFWorkbook());
     }
 
     @Override
     public void writeToFile() {
         Set<ResultLink> resultLinks = foundFromWebByOneWordAllTypoVariants.foundFromWeb();
-        Workbook workbook = toWorkbook.workbook();
         Sheet sheet = workbook.createSheet("Result");
         createHeaderRow(workbook, sheet, headers.headers());
 
@@ -54,6 +54,7 @@ public final class WrittenToExcel implements WrittenToFile {
         try (OutputStream outputStream = new FileOutputStream(fileName)) {
             workbook.write(outputStream);
         } catch (Exception e) {
+            System.out.println(e);
             //throw new SneakySearchException(e); TODO отдать его пользователю
         }
 
@@ -80,6 +81,8 @@ public final class WrittenToExcel implements WrittenToFile {
     private void createNewRow(Sheet sheet, int rowIndex, ResultLink resultLink) {
         Row row = sheet.createRow(rowIndex);
 
+        PurchaseObject purchaseObject = resultLink.purchaseObject();
+
         Cell cell = row.createCell(0);
         cell.setCellValue(resultLink.searchedWord());
 
@@ -87,13 +90,13 @@ public final class WrittenToExcel implements WrittenToFile {
         cell.setCellValue(resultLink.link());
 
         cell = row.createCell(2);
-        cell.setCellValue(resultLink.number());
+        cell.setCellValue(purchaseObject.number());
 
         cell = row.createCell(3);
-        cell.setCellValue(resultLink.purchaseObject());
+        cell.setCellValue(purchaseObject.name());
 
         cell = row.createCell(4);
-        cell.setCellValue(resultLink.customer());
+        cell.setCellValue(purchaseObject.customer());
     }
 
     private CellStyle createHeaderStyle(Workbook workbook) {
