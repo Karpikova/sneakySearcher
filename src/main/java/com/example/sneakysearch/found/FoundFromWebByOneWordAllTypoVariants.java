@@ -1,4 +1,4 @@
-package com.example.sneakysearch;
+package com.example.sneakysearch.found;
 
 import com.example.sneakysearch.result.Result;
 
