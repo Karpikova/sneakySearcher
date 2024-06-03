@@ -2,6 +2,6 @@ package com.example.sneakysearch.found;
 
 import com.example.sneakysearch.result.Result;
 
-public interface FoundFromWebByWord {
+public interface FoundFromWebByAllTypoVariantsOfWord {
     Result foundFromWeb();
 }

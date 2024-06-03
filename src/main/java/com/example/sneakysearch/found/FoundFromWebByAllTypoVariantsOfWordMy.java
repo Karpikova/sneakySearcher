@@ -13,27 +13,27 @@ import com.example.sneakysearch.typos.RussianKeyboard;
 import java.util.List;
 import java.util.Set;
 
-public final class FoundFromWebByOneWordAllTypoVariantsMy implements FoundFromWebByOneWordAllTypoVariants {
+public final class FoundFromWebByAllTypoVariantsOfWordMy implements FoundFromWebByAllTypoVariantsOfWord {
     private final JointTypos allTypoVariantsIncludeWord;
-    private final ToFoundFromWebByWord toFoundFromWebByWord;
-    private Result result;
+    private final ToFoundFromWebByOneWord toFoundFromWebByOneWord;
+    private final Result result;
 
-    public FoundFromWebByOneWordAllTypoVariantsMy(JointTypos allTypoVariantsIncludeWord,
-                                                  ToFoundFromWebByWord toFoundFromWebByWord,
-                                                  Result result) {
+    public FoundFromWebByAllTypoVariantsOfWordMy(JointTypos allTypoVariantsIncludeWord,
+                                                 ToFoundFromWebByOneWord toFoundFromWebByOneWord,
+                                                 Result result) {
         this.allTypoVariantsIncludeWord = allTypoVariantsIncludeWord;
-        this.toFoundFromWebByWord = toFoundFromWebByWord;
+        this.toFoundFromWebByOneWord = toFoundFromWebByOneWord;
         this.result = result;
     }
 
-    public FoundFromWebByOneWordAllTypoVariantsMy(String word) {
+    public FoundFromWebByAllTypoVariantsOfWordMy(String word) {
         this(new AllTypos(List.of(
                         new AddedWrongButtonTypos(word, new RussianKeyboard()),
                         new MixedButtonsTypos(word),
                         new DoubleButtonTypos(word),
                         new MissedInnerButtonTypos(word),
                         () -> Set.of(word))),
-                w -> new FoundFromWebByOneWordVariantMy(w),
+                w -> new FoundFromWebByOneWordMy(w),
                 new ResultMy());
     }
 
@@ -41,8 +41,8 @@ public final class FoundFromWebByOneWordAllTypoVariantsMy implements FoundFromWe
     public Result foundFromWeb() {
         Set<String> words = allTypoVariantsIncludeWord.value();
         for (String word : words) {
-            FoundFromWebByWord foundFromWebByWord = toFoundFromWebByWord.foundFromWebByWord(word);
-            Result foundFromWebResult = foundFromWebByWord.foundFromWeb();
+            FoundFromWebByOneWord foundFromWebByOneWord = toFoundFromWebByOneWord.foundFromWebByWord(word);
+            Result foundFromWebResult = foundFromWebByOneWord.foundFromWeb();
             result.addLinks(foundFromWebResult.resultLinks());
             result.addMistakes(foundFromWebResult.mistakes());
         }

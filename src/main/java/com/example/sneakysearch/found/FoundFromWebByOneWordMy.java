@@ -16,8 +16,8 @@ import org.jsoup.select.Elements;
 import java.util.Optional;
 import java.util.Set;
 
-public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
-    private static final Logger LOGGER = LogManager.getLogger(FoundFromWebByOneWordVariantMy.class);
+public class FoundFromWebByOneWordMy implements FoundFromWebByOneWord {
+    private static final Logger LOGGER = LogManager.getLogger(FoundFromWebByOneWordMy.class);
     private final static String BASE_URL = "https://zakupki.gov.ru";
     private final static String SEARCH_BASE_URL = "/epz/order/extendedsearch/results.html?";
     private final static String ALL_ELEMENTS_TAG = "div.search-registry-entry-block";
@@ -28,33 +28,34 @@ public class FoundFromWebByOneWordVariantMy implements FoundFromWebByWord {
     private final static int MAX_TRY_COUNT_OF_ONE_PAGE = 10;
     private final static int MAX_TRY_COUNT_OF_MISTAKEN_PAGES = 10;
     private final String word;
+    private final Result result;
     private final ToResultLink toResultLink;
 
-    public FoundFromWebByOneWordVariantMy(String word, ToResultLink toResultLink) {
+    public FoundFromWebByOneWordMy(String word, Result result, ToResultLink toResultLink) {
         this.word = word;
+        this.result = result;
         this.toResultLink = toResultLink;
     }
 
-    public FoundFromWebByOneWordVariantMy(String word) {
+    public FoundFromWebByOneWordMy(String word) {
         this(word,
+                new ResultMy(),
                 (String w, String name, String number, String customer, String link, int ordinal)
                         -> new ResultLinkWithPurchaseObject(w, name, number, customer, link, ordinal));
     }
 
     @Override
     public Result foundFromWeb() {
-        System.out.println("Ищу " + word);
+        LOGGER.info("Ищу " + word);
         int pageNumber = 1;
         Integer ordinal = 1;
-        ResultMy result = new ResultMy();
         Set<ResultLink> resultLinks = result.resultLinks();
-        Elements select;
         boolean endOfSearchIsAchieved = false;
         int tryCountCommon = 0;
         do {
             Optional<Document> document = getHtml(pageNumber);
             if (document.isPresent()) {
-                select = document.get().select(ALL_ELEMENTS_TAG);
+                Elements select = document.get().select(ALL_ELEMENTS_TAG);
                 if (select.isEmpty()) {
                     endOfSearchIsAchieved = true;
                 } else {

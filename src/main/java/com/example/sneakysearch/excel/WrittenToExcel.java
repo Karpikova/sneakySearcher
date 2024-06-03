@@ -1,7 +1,7 @@
 package com.example.sneakysearch.excel;
 
-import com.example.sneakysearch.found.FoundFromWebByOneWordAllTypoVariants;
-import com.example.sneakysearch.found.FoundFromWebByOneWordAllTypoVariantsMy;
+import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfWord;
+import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfWordMy;
 import com.example.sneakysearch.result.PurchaseObject;
 import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
@@ -20,26 +20,26 @@ import java.util.List;
 import java.util.Set;
 
 public final class WrittenToExcel implements WrittenToFile {
-    private final FoundFromWebByOneWordAllTypoVariants foundFromWebByOneWordAllTypoVariants;
+    private final FoundFromWebByAllTypoVariantsOfWord foundFromWebByAllTypoVariantsOfWord;
     private final String fileName;
     private final Headers headers;
     private final Workbook workbook;
 
-    public WrittenToExcel(FoundFromWebByOneWordAllTypoVariants foundFromWebByOneWordAllTypoVariants,
+    public WrittenToExcel(FoundFromWebByAllTypoVariantsOfWord foundFromWebByAllTypoVariantsOfWord,
                           String fileName, Headers headers, Workbook workbook) {
-        this.foundFromWebByOneWordAllTypoVariants = foundFromWebByOneWordAllTypoVariants;
+        this.foundFromWebByAllTypoVariantsOfWord = foundFromWebByAllTypoVariantsOfWord;
         this.fileName = fileName;
         this.headers = headers;
         this.workbook = workbook;
     }
 
     public WrittenToExcel(String word, String fileName, Headers headers) {
-        this(new FoundFromWebByOneWordAllTypoVariantsMy(word), fileName, headers, new XSSFWorkbook());
+        this(new FoundFromWebByAllTypoVariantsOfWordMy(word), fileName, headers, new XSSFWorkbook());
     }
 
     @Override
     public void writeToFile() {
-        Result result = foundFromWebByOneWordAllTypoVariants.foundFromWeb();
+        Result result = foundFromWebByAllTypoVariantsOfWord.foundFromWeb();
         Set<ResultLink> resultLinks = result.resultLinks();
         Sheet sheet = workbook.createSheet("Result");
         createHeaderRow(workbook, sheet, headers.headers());
