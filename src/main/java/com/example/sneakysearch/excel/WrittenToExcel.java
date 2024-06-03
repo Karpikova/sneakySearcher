@@ -1,10 +1,12 @@
 package com.example.sneakysearch.excel;
 
-import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfWord;
+import com.example.sneakysearch.found.FoundFromWeb;
 import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfWordMy;
 import com.example.sneakysearch.result.PurchaseObject;
 import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
+import com.example.sneakysearch.result.file.FileName;
+import com.example.sneakysearch.result.file.FileNameInDownloadFolder;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -20,21 +22,24 @@ import java.util.List;
 import java.util.Set;
 
 public final class WrittenToExcel implements WrittenToFile {
-    private final FoundFromWebByAllTypoVariantsOfWord foundFromWebByAllTypoVariantsOfWord;
-    private final String fileName;
+    private final FoundFromWeb foundFromWebByAllTypoVariantsOfWord;
+    private final FileName fileName;
     private final Headers headers;
     private final Workbook workbook;
 
-    public WrittenToExcel(FoundFromWebByAllTypoVariantsOfWord foundFromWebByAllTypoVariantsOfWord,
-                          String fileName, Headers headers, Workbook workbook) {
+    public WrittenToExcel(FoundFromWeb foundFromWebByAllTypoVariantsOfWord,
+                          FileName fileName, Headers headers, Workbook workbook) {
         this.foundFromWebByAllTypoVariantsOfWord = foundFromWebByAllTypoVariantsOfWord;
         this.fileName = fileName;
         this.headers = headers;
         this.workbook = workbook;
     }
 
-    public WrittenToExcel(String word, String fileName, Headers headers) {
-        this(new FoundFromWebByAllTypoVariantsOfWordMy(word), fileName, headers, new XSSFWorkbook());
+    public WrittenToExcel(String word, Headers headers) {
+        this(new FoundFromWebByAllTypoVariantsOfWordMy(word),
+                new FileNameInDownloadFolder(word),
+                headers,
+                new XSSFWorkbook());
     }
 
     @Override
@@ -52,7 +57,7 @@ public final class WrittenToExcel implements WrittenToFile {
 
         setAutoSizeColumns(sheet, resultLinks);
 
-        try (OutputStream outputStream = new FileOutputStream(fileName)) {
+        try (OutputStream outputStream = new FileOutputStream(fileName.value())) {
             workbook.write(outputStream);
         } catch (Exception e) {
             System.out.println(e);

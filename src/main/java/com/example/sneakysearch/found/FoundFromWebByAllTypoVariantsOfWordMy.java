@@ -13,7 +13,7 @@ import com.example.sneakysearch.typos.RussianKeyboard;
 import java.util.List;
 import java.util.Set;
 
-public final class FoundFromWebByAllTypoVariantsOfWordMy implements FoundFromWebByAllTypoVariantsOfWord {
+public final class FoundFromWebByAllTypoVariantsOfWordMy implements FoundFromWeb {
     private final JointTypos allTypoVariantsIncludeWord;
     private final ToFoundFromWebByOneWord toFoundFromWebByOneWord;
     private final Result result;
@@ -33,7 +33,7 @@ public final class FoundFromWebByAllTypoVariantsOfWordMy implements FoundFromWeb
                         new DoubleButtonTypos(word),
                         new MissedInnerButtonTypos(word),
                         () -> Set.of(word))),
-                w -> new FoundFromWebByOneWordMy(w),
+                w -> new FoundFromWebByOneWord(w),
                 new ResultMy());
     }
 
@@ -41,8 +41,8 @@ public final class FoundFromWebByAllTypoVariantsOfWordMy implements FoundFromWeb
     public Result foundFromWeb() {
         Set<String> words = allTypoVariantsIncludeWord.value();
         for (String word : words) {
-            FoundFromWebByOneWord foundFromWebByOneWord = toFoundFromWebByOneWord.foundFromWebByWord(word);
-            Result foundFromWebResult = foundFromWebByOneWord.foundFromWeb();
+            FoundFromWeb foundFromWeb = toFoundFromWebByOneWord.foundFromWebByWord(word);
+            Result foundFromWebResult = foundFromWeb.foundFromWeb();
             result.addLinks(foundFromWebResult.resultLinks());
             result.addMistakes(foundFromWebResult.mistakes());
         }
