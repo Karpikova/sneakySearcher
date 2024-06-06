@@ -9,6 +9,7 @@ public interface Result {
     List<Mistake> mistakes();
 
     void addLinks(Set<ResultLink> links);
-
+    void addLink(ResultLink link);
     void addMistakes(List<Mistake> mistakes);
+    void addMistake(Mistake mistakes);
 }

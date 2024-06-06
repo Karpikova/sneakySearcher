@@ -1,10 +1,12 @@
 package com.example.sneakysearch.found;
 
+import com.example.sneakysearch.result.MistakeMy;
 import com.example.sneakysearch.result.PurchaseObject;
 import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
 import com.example.sneakysearch.result.ResultLinkWithPurchaseObject;
 import com.example.sneakysearch.result.ResultMy;
+import com.example.sneakysearch.result.ToMistake;
 import com.example.sneakysearch.result.ToResultLink;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,18 +32,21 @@ public class FoundFromWebByOneWord implements FoundFromWeb {
     private final String word;
     private final Result result;
     private final ToResultLink toResultLink;
+    private final ToMistake toMistake;
 
-    public FoundFromWebByOneWord(String word, Result result, ToResultLink toResultLink) {
+    public FoundFromWebByOneWord(String word, Result result, ToResultLink toResultLink, ToMistake toMistake) {
         this.word = word;
         this.result = result;
         this.toResultLink = toResultLink;
+        this.toMistake = toMistake;
     }
 
     public FoundFromWebByOneWord(String word) {
         this(word,
                 new ResultMy(),
                 (String w, String name, String number, String customer, String link, int ordinal)
-                        -> new ResultLinkWithPurchaseObject(w, name, number, customer, link, ordinal));
+                        -> new ResultLinkWithPurchaseObject(w, name, number, customer, link, ordinal),
+                msText -> new MistakeMy(msText));
     }
 
     @Override
@@ -74,18 +79,18 @@ public class FoundFromWebByOneWord implements FoundFromWeb {
     private void processSelect(Elements select, Set<ResultLink> resultSet, Integer ordinal) {
         for (Element purchase : select) {
             ordinal++;
-            createResult(purchase, resultSet, ordinal);
+            createResult(purchase, ordinal);
         }
     }
 
-    private void createResult(Element purchase, Set<ResultLink> resultSet, int ordinal) {
+    private void createResult(Element purchase, int ordinal) {
         String name = purchase.select(PURCHASE_OBJECT_TAG).text();
         String number = purchase.select(PURCHASE_NUMBER_TAG).text();
         String customer = purchase.select(PURCHASE_CUSTOMER_TAG).text();
         String link = BASE_URL + purchase.select(LINK_TAG).first().attr("href");
-        ResultLink result = toResultLink.resultLink(word, name, number, customer, link, ordinal);
-        resultSet.add(result);
-        printToConsole(result);
+        ResultLink resultLink = toResultLink.resultLink(word, name, number, customer, link, ordinal);
+        result.addLink(resultLink);
+        printToConsole(resultLink);
     }
 
     private void printToConsole(ResultLink result) {
@@ -109,7 +114,7 @@ public class FoundFromWebByOneWord implements FoundFromWeb {
                 LOGGER.error("Ошибка запроса " + url);
                 tryCount++;
                 if (tryCount == MAX_TRY_COUNT_OF_ONE_PAGE) {
-                    //AllResult.addMistakenLink(word, url); доделать
+                    result.addMistake(toMistake.ms(url));
                 }
             }
         } while (document == null && tryCount <= MAX_TRY_COUNT_OF_ONE_PAGE);

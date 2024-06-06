@@ -31,8 +31,18 @@ public class ResultMy implements Result {
     }
 
     @Override
+    public void addLink(ResultLink link) {
+        this.resultLinks.add(link);
+    }
+
+    @Override
     public void addMistakes(List<Mistake> ms) {
         this.mistakes.addAll(ms);
+    }
+
+    @Override
+    public void addMistake(Mistake mistake) {
+        this.mistakes.add(mistake);
     }
 
 }

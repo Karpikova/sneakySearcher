@@ -2,6 +2,7 @@ package com.example.sneakysearch.excel;
 
 import com.example.sneakysearch.found.FoundFromWeb;
 import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfWordMy;
+import com.example.sneakysearch.result.Mistake;
 import com.example.sneakysearch.result.PurchaseObject;
 import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
@@ -46,16 +47,11 @@ public final class WrittenToExcel implements WrittenToFile {
     public void writeToFile() {
         Result result = foundFromWebByAllTypoVariantsOfWord.foundFromWeb();
         Set<ResultLink> resultLinks = result.resultLinks();
-        Sheet sheet = workbook.createSheet("Result");
-        createHeaderRow(workbook, sheet, headers.headers());
-
-        int rowIndex = 1;
-        for (ResultLink resultLink : resultLinks) {
-            createNewRow(sheet, rowIndex, resultLink);
-            rowIndex++;
+        List<Mistake> mistakes = result.mistakes();
+        createLinksSheet(resultLinks);
+        if (!mistakes.isEmpty()) {
+            createMistakesSheet(mistakes);
         }
-
-        setAutoSizeColumns(sheet, resultLinks);
 
         try (OutputStream outputStream = new FileOutputStream(fileName.value())) {
             workbook.write(outputStream);
@@ -67,24 +63,31 @@ public final class WrittenToExcel implements WrittenToFile {
         System.out.println(resultLinks.size());
     }
 
-    private void setAutoSizeColumns(Sheet sheet, Set<ResultLink> resultLinks) {
-        for (int i = 0; i < resultLinks.size(); i++) {
-            sheet.autoSizeColumn(i);
+    private void createLinksSheet(Set<ResultLink> resultLinks) {
+        Sheet sheet = workbook.createSheet("Result");
+        createHeaderRow(sheet, headers.headers());
+
+        int rowIndex = 1;
+        for (ResultLink resultLink : resultLinks) {
+            createNewLinkRow(sheet, rowIndex, resultLink);
+            rowIndex++;
+        }
+
+        setAutoSizeColumns(sheet, resultLinks);
+    }
+
+    private void createMistakesSheet(List<Mistake> mistakes) {
+        Sheet sheet = workbook.createSheet("Mistakes");
+        createHeaderRow(sheet, headers.headers());
+
+        int rowIndex = 1;
+        for (Mistake ms : mistakes) {
+            createNewMistakeRow(sheet, rowIndex, ms);
+            rowIndex++;
         }
     }
 
-    private void createHeaderRow(Workbook workbook, Sheet sheet, List<String> headers) {
-        Row headerRow = sheet.createRow(0);
-        CellStyle headerCellStyle = createHeaderStyle(workbook);
-
-        for (int i = 0; i < headers.size(); i++) {
-            Cell cell = headerRow.createCell(i);
-            cell.setCellValue(headers.get(i));
-            cell.setCellStyle(headerCellStyle);
-        }
-    }
-
-    private void createNewRow(Sheet sheet, int rowIndex, ResultLink resultLink) {
+    private void createNewLinkRow(Sheet sheet, int rowIndex, ResultLink resultLink) {
         Row row = sheet.createRow(rowIndex);
 
         PurchaseObject purchaseObject = resultLink.purchaseObject();
@@ -105,7 +108,32 @@ public final class WrittenToExcel implements WrittenToFile {
         cell.setCellValue(purchaseObject.customer());
     }
 
-    private CellStyle createHeaderStyle(Workbook workbook) {
+    private void createNewMistakeRow(Sheet sheet, int rowIndex, Mistake ms) {
+        Row row = sheet.createRow(rowIndex);
+
+        Cell cell = row.createCell(0);
+        cell.setCellValue(ms.text());
+
+    }
+
+    private void createHeaderRow(Sheet sheet, List<String> headers) {
+        Row headerRow = sheet.createRow(0);
+        CellStyle headerCellStyle = createHeaderStyle();
+
+        for (int i = 0; i < headers.size(); i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers.get(i));
+            cell.setCellStyle(headerCellStyle);
+        }
+    }
+
+    private void setAutoSizeColumns(Sheet sheet, Set<ResultLink> resultLinks) {
+        for (int i = 0; i < resultLinks.size(); i++) {
+            sheet.autoSizeColumn(i);
+        }
+    }
+
+    private CellStyle createHeaderStyle() {
         CellStyle headerCellStyle = workbook.createCellStyle();
         headerCellStyle.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.index);
         headerCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
