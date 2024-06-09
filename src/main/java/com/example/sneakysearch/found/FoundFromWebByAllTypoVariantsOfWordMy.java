@@ -1,5 +1,6 @@
 package com.example.sneakysearch.found;
 
+import com.example.sneakysearch.SneakySearchException;
 import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultMy;
 import com.example.sneakysearch.typos.AddedWrongButtonTypos;
@@ -38,13 +39,13 @@ public final class FoundFromWebByAllTypoVariantsOfWordMy implements FoundFromWeb
     }
 
     @Override
-    public Result foundFromWeb() {
+    public Result foundFromWeb() throws SneakySearchException {
         Set<String> words = allTypoVariantsIncludeWord.value();
         for (String word : words) {
-            FoundFromWeb foundFromWeb = toFoundFromWebByOneWord.foundFromWebByWord(word);
+            String lcWord = word.toLowerCase();
+            FoundFromWeb foundFromWeb = toFoundFromWebByOneWord.foundFromWebByWord(lcWord);
             Result foundFromWebResult = foundFromWeb.foundFromWeb();
             result.addLinks(foundFromWebResult.resultLinks());
-            result.addMistakes(foundFromWebResult.mistakes());
         }
         return result;
     }

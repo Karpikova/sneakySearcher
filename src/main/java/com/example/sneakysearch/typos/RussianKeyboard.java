@@ -14,7 +14,7 @@ public final class RussianKeyboard implements Keyboard {
     }
 
     public RussianKeyboard() {
-        this(new HashMap<>(){{ //TODO подумать, что будет при непопадании
+        this(new HashMap<>() {{ //TODO подумать, что будет при непопадании
             put("й", Arrays.asList("ц", "ы", "ф"));
             put("ц", Arrays.asList("у", "ы", "ф", "й"));
             put("у", Arrays.asList("к", "в", "ы", "ц"));
@@ -60,7 +60,6 @@ public final class RussianKeyboard implements Keyboard {
             put("8", Arrays.asList());
             put("9", Arrays.asList());
             put("0", Arrays.asList());
-
         }});
     }
 

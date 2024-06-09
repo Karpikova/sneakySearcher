@@ -1,12 +1,11 @@
 package com.example.sneakysearch.found;
 
-import com.example.sneakysearch.result.MistakeMy;
+import com.example.sneakysearch.SneakySearchException;
 import com.example.sneakysearch.result.PurchaseObject;
 import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
 import com.example.sneakysearch.result.ResultLinkWithPurchaseObject;
 import com.example.sneakysearch.result.ResultMy;
-import com.example.sneakysearch.result.ToMistake;
 import com.example.sneakysearch.result.ToResultLink;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,9 +13,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import java.util.Optional;
-import java.util.Set;
 
 public class FoundFromWebByOneWord implements FoundFromWeb {
     private static final Logger LOGGER = LogManager.getLogger(FoundFromWebByOneWord.class);
@@ -28,55 +24,45 @@ public class FoundFromWebByOneWord implements FoundFromWeb {
     private final static String PURCHASE_CUSTOMER_TAG = "div.registry-entry__body-href";
     private final static String LINK_TAG = "div.registry-entry__header-mid__number > a";
     private final static int MAX_TRY_COUNT_OF_ONE_PAGE = 10;
-    private final static int MAX_TRY_COUNT_OF_MISTAKEN_PAGES = 10;
     private final String word;
     private final Result result;
     private final ToResultLink toResultLink;
-    private final ToMistake toMistake;
 
-    public FoundFromWebByOneWord(String word, Result result, ToResultLink toResultLink, ToMistake toMistake) {
+    public FoundFromWebByOneWord(String word, Result result, ToResultLink toResultLink) {
         this.word = word;
         this.result = result;
         this.toResultLink = toResultLink;
-        this.toMistake = toMistake;
     }
 
     public FoundFromWebByOneWord(String word) {
         this(word,
                 new ResultMy(),
                 (String w, String name, String number, String customer, String link, int ordinal)
-                        -> new ResultLinkWithPurchaseObject(w, name, number, customer, link, ordinal),
-                msText -> new MistakeMy(msText));
+                        -> new ResultLinkWithPurchaseObject(w, name, number, customer, link, ordinal));
     }
 
     @Override
-    public Result foundFromWeb() {
+    public Result foundFromWeb() throws SneakySearchException {
         LOGGER.info("Ищу " + word);
         int pageNumber = 1;
         Integer ordinal = 1;
-        Set<ResultLink> resultLinks = result.resultLinks();
         boolean endOfSearchIsAchieved = false;
-        int tryCountCommon = 0;
         do {
-            Optional<Document> document = getHtml(pageNumber);
-            if (document.isPresent()) {
-                Elements select = document.get().select(ALL_ELEMENTS_TAG);
-                if (select.isEmpty()) {
-                    endOfSearchIsAchieved = true;
-                } else {
-                    processSelect(select, resultLinks, ordinal);
-                    pageNumber++;
-                }
+            Document document = getHtml(pageNumber);
+            Elements select = document.select(ALL_ELEMENTS_TAG);
+            if (select.isEmpty()) {
+                endOfSearchIsAchieved = true;
             } else {
-                tryCountCommon++;
+                processSelect(select, ordinal);
+                pageNumber++;
             }
         }
-        while (!endOfSearchIsAchieved && tryCountCommon < MAX_TRY_COUNT_OF_MISTAKEN_PAGES);
+        while (!endOfSearchIsAchieved);
 
         return result;
     }
 
-    private void processSelect(Elements select, Set<ResultLink> resultSet, Integer ordinal) {
+    private void processSelect(Elements select, Integer ordinal) {
         for (Element purchase : select) {
             ordinal++;
             createResult(purchase, ordinal);
@@ -102,7 +88,7 @@ public class FoundFromWebByOneWord implements FoundFromWeb {
         System.out.println("");
     }
 
-    private Optional<Document> getHtml(int pageNumber) {
+    private Document getHtml(int pageNumber) throws SneakySearchException {
         String url = createUrl(pageNumber);
         LOGGER.info("Вызываю " + url);
         int tryCount = 0;
@@ -114,11 +100,11 @@ public class FoundFromWebByOneWord implements FoundFromWeb {
                 LOGGER.error("Ошибка запроса " + url);
                 tryCount++;
                 if (tryCount == MAX_TRY_COUNT_OF_ONE_PAGE) {
-                    result.addMistake(toMistake.ms(url));
+                    throw new SneakySearchException(url);
                 }
             }
-        } while (document == null && tryCount <= MAX_TRY_COUNT_OF_ONE_PAGE);
-        return Optional.of(document);
+        } while (document == null);
+        return document;
     }
 
     private String createUrl(int page) {

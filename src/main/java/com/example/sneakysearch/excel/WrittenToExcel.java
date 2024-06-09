@@ -1,8 +1,8 @@
 package com.example.sneakysearch.excel;
 
+import com.example.sneakysearch.SneakySearchException;
 import com.example.sneakysearch.found.FoundFromWeb;
 import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfWordMy;
-import com.example.sneakysearch.result.Mistake;
 import com.example.sneakysearch.result.PurchaseObject;
 import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
@@ -44,23 +44,24 @@ public final class WrittenToExcel implements WrittenToFile {
     }
 
     @Override
-    public void writeToFile() {
-        Result result = foundFromWebByAllTypoVariantsOfWord.foundFromWeb();
-        Set<ResultLink> resultLinks = result.resultLinks();
-        List<Mistake> mistakes = result.mistakes();
-        createLinksSheet(resultLinks);
-        if (!mistakes.isEmpty()) {
-            createMistakesSheet(mistakes);
+    public void writeToFile() throws SneakySearchException {
+        try {
+            Result result = foundFromWebByAllTypoVariantsOfWord.foundFromWeb();
+            Set<ResultLink> resultLinks = result.resultLinks();
+            createLinksSheet(resultLinks);
+            System.out.println(resultLinks.size());
+        } catch (SneakySearchException e) {
+            createMistakesSheet(e);
         }
+
 
         try (OutputStream outputStream = new FileOutputStream(fileName.value())) {
             workbook.write(outputStream);
         } catch (Exception e) {
             System.out.println(e);
-            //throw new SneakySearchException(e); TODO отдать его пользователю
+            throw new SneakySearchException("FileOutputStream problem");
         }
 
-        System.out.println(resultLinks.size());
     }
 
     private void createLinksSheet(Set<ResultLink> resultLinks) {
@@ -76,14 +77,22 @@ public final class WrittenToExcel implements WrittenToFile {
         setAutoSizeColumns(sheet, resultLinks);
     }
 
-    private void createMistakesSheet(List<Mistake> mistakes) {
+    private void createMistakesSheet(Exception e) {
         Sheet sheet = workbook.createSheet("Mistakes");
-        createHeaderRow(sheet, headers.headers());
+        StackTraceElement[] stackTrace = e.getStackTrace();
+        printDetailedMessage(e, sheet);
+        printStackTrace(stackTrace, sheet);
+    }
 
-        int rowIndex = 1;
-        for (Mistake ms : mistakes) {
-            createNewMistakeRow(sheet, rowIndex, ms);
-            rowIndex++;
+    private void printDetailedMessage(Exception e, Sheet sheet) {
+        createNewMistakeRow(e.getMessage(), sheet, 0);
+    }
+
+    private void printStackTrace(StackTraceElement[] stackTrace, Sheet sheet) {
+        int iRow = 1;
+        for (StackTraceElement ste : stackTrace) {
+            createNewMistakeRow(ste.toString(), sheet, iRow);
+            iRow++;
         }
     }
 
@@ -108,13 +117,12 @@ public final class WrittenToExcel implements WrittenToFile {
         cell.setCellValue(purchaseObject.customer());
     }
 
-    private void createNewMistakeRow(Sheet sheet, int rowIndex, Mistake ms) {
-        Row row = sheet.createRow(rowIndex);
-
+    private void createNewMistakeRow(String text, Sheet sheet, int iRow) {
+        Row row = sheet.createRow(iRow);
         Cell cell = row.createCell(0);
-        cell.setCellValue(ms.text());
-
+        cell.setCellValue(text);
     }
+
 
     private void createHeaderRow(Sheet sheet, List<String> headers) {
         Row headerRow = sheet.createRow(0);
