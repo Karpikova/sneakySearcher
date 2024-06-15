@@ -1,6 +1,6 @@
 package com.example.sneakysearch.result;
 
-public class PurchaseObjectMy implements PurchaseObject {
+public final class PurchaseObjectMy implements PurchaseObject {
     String name;
     String number;
     String customer;

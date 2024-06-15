@@ -14,7 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class FoundFromWebByOneWord implements FoundFromWeb {
+public final class FoundFromWebByOneWord implements FoundFromWeb {
     private static final Logger LOGGER = LogManager.getLogger(FoundFromWebByOneWord.class);
     private final static String BASE_URL = "https://zakupki.gov.ru";
     private final static String SEARCH_BASE_URL = "/epz/order/extendedsearch/results.html?";

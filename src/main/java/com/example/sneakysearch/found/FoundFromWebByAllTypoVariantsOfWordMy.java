@@ -6,10 +6,11 @@ import com.example.sneakysearch.result.ResultMy;
 import com.example.sneakysearch.typos.AddedWrongButtonTypos;
 import com.example.sneakysearch.typos.AllTypos;
 import com.example.sneakysearch.typos.DoubleButtonTypos;
+import com.example.sneakysearch.typos.EnglishReplacementTypos;
 import com.example.sneakysearch.typos.JointTypos;
+import com.example.sneakysearch.typos.Keyboard;
 import com.example.sneakysearch.typos.MissedInnerButtonTypos;
 import com.example.sneakysearch.typos.MixedButtonsTypos;
-import com.example.sneakysearch.typos.RussianKeyboard;
 
 import java.util.List;
 import java.util.Set;
@@ -27,12 +28,13 @@ public final class FoundFromWebByAllTypoVariantsOfWordMy implements FoundFromWeb
         this.result = result;
     }
 
-    public FoundFromWebByAllTypoVariantsOfWordMy(String word) {
+    public FoundFromWebByAllTypoVariantsOfWordMy(String word, Keyboard keyboard) {
         this(new AllTypos(List.of(
-                        new AddedWrongButtonTypos(word, new RussianKeyboard()),
+                        new AddedWrongButtonTypos(word, keyboard),
                         new MixedButtonsTypos(word),
                         new DoubleButtonTypos(word),
                         new MissedInnerButtonTypos(word),
+                        new EnglishReplacementTypos(word, keyboard),
                         () -> Set.of(word))),
                 w -> new FoundFromWebByOneWord(w),
                 new ResultMy());
@@ -42,8 +44,7 @@ public final class FoundFromWebByAllTypoVariantsOfWordMy implements FoundFromWeb
     public Result foundFromWeb() throws SneakySearchException {
         Set<String> words = allTypoVariantsIncludeWord.value();
         for (String word : words) {
-            String lcWord = word.toLowerCase();
-            FoundFromWeb foundFromWeb = toFoundFromWebByOneWord.foundFromWebByWord(lcWord);
+            FoundFromWeb foundFromWeb = toFoundFromWebByOneWord.foundFromWebByWord(word);
             Result foundFromWebResult = foundFromWeb.foundFromWeb();
             result.addLinks(foundFromWebResult.resultLinks());
         }

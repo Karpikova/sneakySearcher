@@ -14,7 +14,7 @@ public final class MissedInnerButtonTypos implements Typos {
     public Set<String> value() {
         Set<String> typoWords = new HashSet<>();
         StringBuilder wordSb = new StringBuilder();
-        for (int i = 1; i < initialWord.length()-1; i++) {
+        for (int i = 1; i < initialWord.length() - 1; i++) {
             new Typos.Smart().resetStringBuilder(wordSb, initialWord);
             typoWords.add(new StringBuilder()
                     .append(initialWord.substring(0, i)).append(initialWord.substring(i + 1)).toString());

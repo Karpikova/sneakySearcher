@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HeadersMy implements Headers {
+public final class HeadersMy implements Headers {
     private final List<String> headers;
 
     public HeadersMy() {

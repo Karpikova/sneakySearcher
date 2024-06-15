@@ -3,7 +3,7 @@ package com.example.sneakysearch.result;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ResultMy implements Result {
+public final class ResultMy implements Result {
     private Set<ResultLink> resultLinks;
 
     public ResultMy() {

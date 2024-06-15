@@ -2,7 +2,7 @@ package com.example.sneakysearch.result;
 
 import java.util.Objects;
 
-public class ResultLinkWithPurchaseObject implements ResultLink {
+public final class ResultLinkWithPurchaseObject implements ResultLink {
     private final PurchaseObject purchaseObject;
     private final String searchedWord;
     private final String link;

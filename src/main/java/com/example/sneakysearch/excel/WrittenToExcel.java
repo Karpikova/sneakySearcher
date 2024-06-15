@@ -8,6 +8,7 @@ import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
 import com.example.sneakysearch.result.file.FileName;
 import com.example.sneakysearch.result.file.FileNameInDownloadFolder;
+import com.example.sneakysearch.typos.RussianKeyboard;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -37,7 +38,7 @@ public final class WrittenToExcel implements WrittenToFile {
     }
 
     public WrittenToExcel(String word, Headers headers) {
-        this(new FoundFromWebByAllTypoVariantsOfWordMy(word),
+        this(new FoundFromWebByAllTypoVariantsOfWordMy(word, new RussianKeyboard()),
                 new FileNameInDownloadFolder(word),
                 headers,
                 new XSSFWorkbook());

@@ -13,8 +13,8 @@ public class SearchController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String doSearch(@RequestParam(value = "word") String word) {
         new Thread(() -> {
-            WrittenToFile writtenToFile = new WrittenToExcel(word,
-                    new HeadersMy()); //привести к нижнему регистру. а что?
+            WrittenToFile writtenToFile = new WrittenToExcel(word.toLowerCase(),
+                    new HeadersMy());
             try {
                 writtenToFile.writeToFile();
             } catch (SneakySearchException e) {

@@ -18,7 +18,7 @@ public final class AddedWrongButtonTypos implements Typos {
     @Override
     public Set<String> value() {
         HashSet<String> typoWords = new HashSet<>();
-        Map<String, List<String>> lettersWithNeighbours = keyboard.lettersWithNeighbours();//я тут
+        Map<String, List<String>> lettersWithNeighbours = keyboard.lettersWithNeighbours();
         for (int i = 0; i < initialWord.length(); i++) {
             List<String> characters = lettersWithNeighbours.getOrDefault(initialWord.substring(i, i + 1), List.of());
             StringBuilder wordSb = new StringBuilder();
