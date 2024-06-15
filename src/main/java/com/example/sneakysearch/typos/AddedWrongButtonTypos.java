@@ -31,7 +31,7 @@ public final class AddedWrongButtonTypos implements Typos {
                 typoWords.add(wordSb.insert(i + 1, c).toString());
             }
         }
-        typoWords.stream().forEach(a -> System.out.println(a));
+        typoWords.forEach(System.out::println);
         return typoWords;
     }
 

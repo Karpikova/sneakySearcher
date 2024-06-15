@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class ResultMy implements Result {
-    private Set<ResultLink> resultLinks;
+    private final Set<ResultLink> resultLinks;
 
     public ResultMy() {
         resultLinks = new HashSet<>();

@@ -36,7 +36,7 @@ public final class FoundFromWebByAllTypoVariantsOfWordMy implements FoundFromWeb
                         new MissedInnerButtonTypos(word),
                         new EnglishReplacementTypos(word, keyboard),
                         () -> Set.of(word))),
-                w -> new FoundFromWebByOneWord(w),
+                FoundFromWebByOneWord::new,
                 new ResultMy());
     }
 

@@ -17,9 +17,9 @@ public final class MissedInnerButtonTypos implements Typos {
         for (int i = 1; i < initialWord.length() - 1; i++) {
             new Typos.Smart().resetStringBuilder(wordSb, initialWord);
             typoWords.add(new StringBuilder()
-                    .append(initialWord.substring(0, i)).append(initialWord.substring(i + 1)).toString());
+                    .append(initialWord, 0, i).append(initialWord.substring(i + 1)).toString());
         }
-        typoWords.stream().forEach(a -> System.out.println(a));
+        typoWords.forEach(System.out::println);
         return typoWords;
     }
 }

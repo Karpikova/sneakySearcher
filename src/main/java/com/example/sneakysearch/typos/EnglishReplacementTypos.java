@@ -20,7 +20,7 @@ public final class EnglishReplacementTypos implements Typos {
     public Set<String> value() { //TODO проверка на слишком длинное слово. Да и вообще на то, что на вход пришло одно слово
         Map<Character, String> lettersWithEnglishAnalogues = keyboard.lettersWithEnglishAnalogues();
         Boolean[] lettersHavingEngAnalogue = initialWord.chars().mapToObj(lt -> (char) lt).
-                map(lt -> lettersWithEnglishAnalogues.containsKey(lt)).toArray(Boolean[]::new);
+                map(lettersWithEnglishAnalogues::containsKey).toArray(Boolean[]::new);
         List<Boolean[]> shortTemplatesForEngAnalogueLetters = shortTemplatesForEngAnalogueLetters(lettersHavingEngAnalogue);
         List<Boolean[]> templates = templates(shortTemplatesForEngAnalogueLetters, lettersHavingEngAnalogue);
         Set<String> typoWords = typoWordsCreatedByTemplates(templates, lettersWithEnglishAnalogues);
@@ -35,7 +35,7 @@ public final class EnglishReplacementTypos implements Typos {
                 String originalLetter = initialWord.substring(i, i+1);
                 Character originalLetterChar = originalLetter.charAt(0);
                 wordSb.append(
-                        template[i] == false ? originalLetter : lettersWithEnglishAnalogues.get(originalLetterChar)
+                        template[i] ? lettersWithEnglishAnalogues.get(originalLetterChar) : originalLetter
                 );
             }
             typoWords.add(wordSb.toString());
@@ -51,7 +51,7 @@ public final class EnglishReplacementTypos implements Typos {
             Boolean[] bt = new Boolean[initialWord.length()];
             int j = 0;
             for (int i = 0; i < bt.length; i++) {
-                bt[i] = lettersHavingEngAnalogue[i] == true ? ssbt[j++] : false; //заменяем только единицы
+                bt[i] = lettersHavingEngAnalogue[i] ? ssbt[j++] : false; //заменяем только единицы
             }
             boolTemplates.add(bt);
         }
@@ -75,7 +75,7 @@ public final class EnglishReplacementTypos implements Typos {
         int size = arrayWithoutLeadZeros.length;
         Boolean[] boolArray = new Boolean[size];
         for (int i = 0; i < size; i++) {
-            boolArray[i] = arrayWithoutLeadZeros[i] == '0' ? false : true;
+            boolArray[i] = arrayWithoutLeadZeros[i] != '0';
         }
         return boolArray;
     }
@@ -86,9 +86,7 @@ public final class EnglishReplacementTypos implements Typos {
         for (int i = 0; i < diff; i++) {
             arrayWithLeadZeros[i] = '0';
         }
-        for (int i = diff; i < countLettersHavingEngAnalogue; i++) {
-            arrayWithLeadZeros[i] = arrayWithoutLeadZeros[i - diff];
-        }
+        System.arraycopy(arrayWithoutLeadZeros, 0, arrayWithLeadZeros, diff, countLettersHavingEngAnalogue - diff);
         return arrayWithLeadZeros;
     }
 

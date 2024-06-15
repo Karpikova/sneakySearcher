@@ -37,8 +37,7 @@ public final class FoundFromWebByOneWord implements FoundFromWeb {
     public FoundFromWebByOneWord(String word) {
         this(word,
                 new ResultMy(),
-                (String w, String name, String number, String customer, String link, int ordinal)
-                        -> new ResultLinkWithPurchaseObject(w, name, number, customer, link, ordinal));
+                ResultLinkWithPurchaseObject::new);
     }
 
     @Override
@@ -85,7 +84,7 @@ public final class FoundFromWebByOneWord implements FoundFromWeb {
         System.out.println("Объект закупки: " + purchaseObject.name());
         System.out.println("Заказчик: " + purchaseObject.customer());
         System.out.println("Ссылка: " + BASE_URL + result.link());
-        System.out.println("");
+        System.out.println();
     }
 
     private Document getHtml(int pageNumber) throws SneakySearchException {
