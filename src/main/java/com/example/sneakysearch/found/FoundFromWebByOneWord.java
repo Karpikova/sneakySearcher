@@ -44,15 +44,14 @@ public final class FoundFromWebByOneWord implements FoundFromWeb {
     public Result foundFromWeb() throws SneakySearchException {
         LOGGER.info("Ищу " + word);
         int pageNumber = 1;
-        Integer ordinal = 1;
         boolean endOfSearchIsAchieved = false;
         do {
-            Document document = getHtml(pageNumber);
-            Elements select = document.select(ALL_ELEMENTS_TAG);
+            final Document document = getHtml(pageNumber);
+            final Elements select = document.select(ALL_ELEMENTS_TAG);
             if (select.isEmpty()) {
                 endOfSearchIsAchieved = true;
             } else {
-                processSelect(select, ordinal);
+                processSelect(select);
                 pageNumber++;
             }
         }
@@ -61,26 +60,24 @@ public final class FoundFromWebByOneWord implements FoundFromWeb {
         return result;
     }
 
-    private void processSelect(Elements select, Integer ordinal) {
+    private void processSelect(Elements select) {
         for (Element purchase : select) {
-            ordinal++;
-            createResult(purchase, ordinal);
+            createResult(purchase);
         }
     }
 
-    private void createResult(Element purchase, int ordinal) {
-        String name = purchase.select(PURCHASE_OBJECT_TAG).text();
-        String number = purchase.select(PURCHASE_NUMBER_TAG).text();
-        String customer = purchase.select(PURCHASE_CUSTOMER_TAG).text();
-        String link = BASE_URL + purchase.select(LINK_TAG).first().attr("href");
-        ResultLink resultLink = toResultLink.resultLink(word, name, number, customer, link, ordinal);
+    private void createResult(Element purchase) {
+        final String name = purchase.select(PURCHASE_OBJECT_TAG).text();
+        final String number = purchase.select(PURCHASE_NUMBER_TAG).text();
+        final String customer = purchase.select(PURCHASE_CUSTOMER_TAG).text();
+        final String link = BASE_URL + purchase.select(LINK_TAG).first().attr("href");
+        final ResultLink resultLink = toResultLink.resultLink(word, name, number, customer, link);
         result.addLink(resultLink);
         printToConsole(resultLink);
     }
 
     private void printToConsole(ResultLink result) {
-        PurchaseObject purchaseObject = result.purchaseObject();
-        System.out.println(result.ordinal() + ". " + purchaseObject.number());
+        final PurchaseObject purchaseObject = result.purchaseObject();
         System.out.println("Объект закупки: " + purchaseObject.name());
         System.out.println("Заказчик: " + purchaseObject.customer());
         System.out.println("Ссылка: " + BASE_URL + result.link());
@@ -88,7 +85,7 @@ public final class FoundFromWebByOneWord implements FoundFromWeb {
     }
 
     private Document getHtml(int pageNumber) throws SneakySearchException {
-        String url = createUrl(pageNumber);
+        final String url = createUrl(pageNumber);
         LOGGER.info("Вызываю " + url);
         int tryCount = 0;
         Document document = null;

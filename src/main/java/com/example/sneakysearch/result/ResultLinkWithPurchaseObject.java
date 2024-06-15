@@ -6,17 +6,15 @@ public final class ResultLinkWithPurchaseObject implements ResultLink {
     private final PurchaseObject purchaseObject;
     private final String searchedWord;
     private final String link;
-    private final int ordinal;
 
-    public ResultLinkWithPurchaseObject(PurchaseObject purchaseObject, String searchedWord, String link, int ordinal) {
+    public ResultLinkWithPurchaseObject(PurchaseObject purchaseObject, String searchedWord, String link) {
         this.purchaseObject = purchaseObject;
         this.searchedWord = searchedWord;
         this.link = link;
-        this.ordinal = ordinal;
     }
 
-    public ResultLinkWithPurchaseObject(String word, String purchaseObject, String number, String customer, String link, int ordinal) {
-        this(new PurchaseObjectMy(purchaseObject, number, customer), word, link, ordinal);
+    public ResultLinkWithPurchaseObject(String word, String purchaseObject, String number, String customer, String link) {
+        this(new PurchaseObjectMy(purchaseObject, number, customer), word, link);
     }
 
     @Override
@@ -47,8 +45,4 @@ public final class ResultLinkWithPurchaseObject implements ResultLink {
         return link;
     }
 
-    @Override
-    public int ordinal() {
-        return ordinal;
-    }
 }

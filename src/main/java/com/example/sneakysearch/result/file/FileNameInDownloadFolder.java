@@ -12,8 +12,8 @@ public class FileNameInDownloadFolder implements FileName {
 
     @Override
     public String value() {
-        String home = System.getProperty("user.home");
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        final String home = System.getProperty("user.home");
+        final String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
         return home + "/Downloads/" + word + "_" + timeStamp + ".xls";
     }
 }

@@ -12,7 +12,7 @@ public final class AllTypos implements JointTypos {
     }
 
     public Set<String> value() {
-        Set<String> allTyposTogether = new HashSet<>();
+        final Set<String> allTyposTogether = new HashSet<>();
         for (Typos typo : typos) {
             allTyposTogether.addAll(typo.value());
         }

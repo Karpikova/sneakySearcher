@@ -12,18 +12,16 @@ public final class MixedButtonsTypos implements Typos {
 
     @Override
     public Set<String> value() {
-        Set<String> typoWords = new HashSet<>();
+        final Set<String> typoWords = new HashSet<>();
         for (int i = 0; i < initialWord.length() - 1; i++) {
-            String letterFirst = initialWord.substring(i, i + 1);
-            String letterSecond = initialWord.substring(i + 1, i + 2);
-            typoWords.add(new StringBuilder()
-                    .append(initialWord.substring(0, i))
-                    .append(letterSecond)
-                    .append(letterFirst)
-                    .append(initialWord.substring(i + 2))
-                    .toString());
+            final String letterFirst = initialWord.substring(i, i + 1);
+            final String letterSecond = initialWord.substring(i + 1, i + 2);
+            typoWords.add(initialWord.substring(0, i) +
+                    letterSecond +
+                    letterFirst +
+                    initialWord.substring(i + 2));
         }
-        typoWords.stream().forEach(a -> System.out.println(a));
+        typoWords.forEach(System.out::println);
         return typoWords;
     }
 }

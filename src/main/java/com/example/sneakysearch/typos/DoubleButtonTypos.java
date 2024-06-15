@@ -13,14 +13,14 @@ public final class DoubleButtonTypos implements Typos {
 
     @Override
     public Set<String> value() {
-        Set<String> typoWords = new HashSet<>();
-        StringBuilder wordSb = new StringBuilder();
+        final Set<String> typoWords = new HashSet<>();
+        final StringBuilder wordSb = new StringBuilder();
         for (int i = 0; i < initialWord.length(); i++) {
             new Smart().resetStringBuilder(wordSb, initialWord);
-            String letter = initialWord.substring(i, i + 1);
+            final String letter = initialWord.substring(i, i + 1);
             typoWords.add(wordSb.insert(i, letter).toString());
         }
-        typoWords.stream().forEach(a -> System.out.println(a));
+        typoWords.forEach(System.out::println);
         return typoWords;
     }
 }

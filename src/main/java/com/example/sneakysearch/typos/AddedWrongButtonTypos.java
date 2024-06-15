@@ -17,11 +17,11 @@ public final class AddedWrongButtonTypos implements Typos {
 
     @Override
     public Set<String> value() {
-        HashSet<String> typoWords = new HashSet<>();
-        Map<String, List<String>> lettersWithNeighbours = keyboard.lettersWithNeighbours();
+        final HashSet<String> typoWords = new HashSet<>();
+        final Map<String, List<String>> lettersWithNeighbours = keyboard.lettersWithNeighbours();
         for (int i = 0; i < initialWord.length(); i++) {
-            List<String> characters = lettersWithNeighbours.getOrDefault(initialWord.substring(i, i + 1), List.of());
-            StringBuilder wordSb = new StringBuilder();
+            final List<String> characters = lettersWithNeighbours.getOrDefault(initialWord.substring(i, i + 1), List.of());
+            final StringBuilder wordSb = new StringBuilder();
             for (String c : characters) {
                 new Typos.Smart().resetStringBuilder(wordSb, initialWord);
                 typoWords.add(wordSb.replace(i, i + 1, c).toString());

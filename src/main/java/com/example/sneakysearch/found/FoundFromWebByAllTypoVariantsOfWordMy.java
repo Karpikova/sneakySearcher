@@ -42,10 +42,10 @@ public final class FoundFromWebByAllTypoVariantsOfWordMy implements FoundFromWeb
 
     @Override
     public Result foundFromWeb() throws SneakySearchException {
-        Set<String> words = allTypoVariantsIncludeWord.value();
+        final Set<String> words = allTypoVariantsIncludeWord.value();
         for (String word : words) {
-            FoundFromWeb foundFromWeb = toFoundFromWebByOneWord.foundFromWebByWord(word);
-            Result foundFromWebResult = foundFromWeb.foundFromWeb();
+            final FoundFromWeb foundFromWeb = toFoundFromWebByOneWord.foundFromWebByWord(word);
+            final Result foundFromWebResult = foundFromWeb.foundFromWeb();
             result.addLinks(foundFromWebResult.resultLinks());
         }
         return result;

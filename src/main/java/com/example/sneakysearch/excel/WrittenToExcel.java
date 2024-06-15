@@ -47,8 +47,8 @@ public final class WrittenToExcel implements WrittenToFile {
     @Override
     public void writeToFile() throws SneakySearchException {
         try {
-            Result result = foundFromWebByAllTypoVariantsOfWord.foundFromWeb();
-            Set<ResultLink> resultLinks = result.resultLinks();
+            final Result result = foundFromWebByAllTypoVariantsOfWord.foundFromWeb();
+            final Set<ResultLink> resultLinks = result.resultLinks();
             createLinksSheet(resultLinks);
             System.out.println(resultLinks.size());
         } catch (SneakySearchException e) {
@@ -66,7 +66,7 @@ public final class WrittenToExcel implements WrittenToFile {
     }
 
     private void createLinksSheet(Set<ResultLink> resultLinks) {
-        Sheet sheet = workbook.createSheet("Result");
+        final Sheet sheet = workbook.createSheet("Result");
         createHeaderRow(sheet, headers.headers());
 
         int rowIndex = 1;
@@ -79,8 +79,8 @@ public final class WrittenToExcel implements WrittenToFile {
     }
 
     private void createMistakesSheet(Exception e) {
-        Sheet sheet = workbook.createSheet("Mistakes");
-        StackTraceElement[] stackTrace = e.getStackTrace();
+        final Sheet sheet = workbook.createSheet("Mistakes");
+        final StackTraceElement[] stackTrace = e.getStackTrace();
         printDetailedMessage(e, sheet);
         printStackTrace(stackTrace, sheet);
     }
@@ -98,9 +98,9 @@ public final class WrittenToExcel implements WrittenToFile {
     }
 
     private void createNewLinkRow(Sheet sheet, int rowIndex, ResultLink resultLink) {
-        Row row = sheet.createRow(rowIndex);
+        final Row row = sheet.createRow(rowIndex);
 
-        PurchaseObject purchaseObject = resultLink.purchaseObject();
+        final PurchaseObject purchaseObject = resultLink.purchaseObject();
 
         Cell cell = row.createCell(0);
         cell.setCellValue(resultLink.searchedWord());
@@ -119,18 +119,18 @@ public final class WrittenToExcel implements WrittenToFile {
     }
 
     private void createNewMistakeRow(String text, Sheet sheet, int iRow) {
-        Row row = sheet.createRow(iRow);
-        Cell cell = row.createCell(0);
+        final Row row = sheet.createRow(iRow);
+        final Cell cell = row.createCell(0);
         cell.setCellValue(text);
     }
 
 
     private void createHeaderRow(Sheet sheet, List<String> headers) {
-        Row headerRow = sheet.createRow(0);
-        CellStyle headerCellStyle = createHeaderStyle();
+        final Row headerRow = sheet.createRow(0);
+        final CellStyle headerCellStyle = createHeaderStyle();
 
         for (int i = 0; i < headers.size(); i++) {
-            Cell cell = headerRow.createCell(i);
+            final Cell cell = headerRow.createCell(i);
             cell.setCellValue(headers.get(i));
             cell.setCellStyle(headerCellStyle);
         }
@@ -143,7 +143,7 @@ public final class WrittenToExcel implements WrittenToFile {
     }
 
     private CellStyle createHeaderStyle() {
-        CellStyle headerCellStyle = workbook.createCellStyle();
+        final CellStyle headerCellStyle = workbook.createCellStyle();
         headerCellStyle.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.index);
         headerCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         headerCellStyle.setTopBorderColor(IndexedColors.BLACK.index);

@@ -12,12 +12,11 @@ public final class MissedInnerButtonTypos implements Typos {
 
     @Override
     public Set<String> value() {
-        Set<String> typoWords = new HashSet<>();
-        StringBuilder wordSb = new StringBuilder();
+        final Set<String> typoWords = new HashSet<>();
+        final StringBuilder wordSb = new StringBuilder();
         for (int i = 1; i < initialWord.length() - 1; i++) {
             new Typos.Smart().resetStringBuilder(wordSb, initialWord);
-            typoWords.add(new StringBuilder()
-                    .append(initialWord, 0, i).append(initialWord.substring(i + 1)).toString());
+            typoWords.add(initialWord.substring(0, i) + initialWord.substring(i + 1));
         }
         typoWords.forEach(System.out::println);
         return typoWords;
