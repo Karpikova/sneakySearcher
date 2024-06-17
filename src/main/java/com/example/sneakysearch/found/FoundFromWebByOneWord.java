@@ -7,6 +7,7 @@ import com.example.sneakysearch.result.ResultLink;
 import com.example.sneakysearch.result.ResultLinkWithPurchaseObject;
 import com.example.sneakysearch.result.ResultMy;
 import com.example.sneakysearch.result.ToResultLink;
+import com.jcabi.aspects.RetryOnFailure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -84,22 +85,17 @@ public final class FoundFromWebByOneWord implements FoundFromWeb {
         System.out.println();
     }
 
+    @RetryOnFailure(attempts = 10)
     private Document getHtml(int pageNumber) throws SneakySearchException {
         final String url = createUrl(pageNumber);
         LOGGER.info("Вызываю " + url);
-        int tryCount = 0;
-        Document document = null;
-        do {
-            try {
-                document = Jsoup.connect(url).maxBodySize(0).get();
-            } catch (Exception ex) {
-                LOGGER.error("Ошибка запроса " + url);
-                tryCount++;
-                if (tryCount == MAX_TRY_COUNT_OF_ONE_PAGE) {
-                    throw new SneakySearchException(url);
-                }
-            }
-        } while (document == null);
+        Document document;
+        try {
+            document = Jsoup.connect(url).maxBodySize(0).get();
+        } catch (Exception ex) {
+            LOGGER.error("Ошибка запроса " + url);
+            throw new SneakySearchException(url);
+        }
         return document;
     }
 
