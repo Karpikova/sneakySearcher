@@ -30,12 +30,12 @@ public final class FoundFromWebByAllTypoVariantsOfWordMy implements FoundFromWeb
 
     public FoundFromWebByAllTypoVariantsOfWordMy(String word, Keyboard keyboard) {
         this(new AllTypos(List.of(
+                        () -> Set.of(word),
                         new AddedWrongButtonTypos(word, keyboard),
                         new MixedButtonsTypos(word),
                         new DoubleButtonTypos(word),
                         new MissedInnerButtonTypos(word),
-                        new EnglishReplacementTypos(word, keyboard),
-                        () -> Set.of(word))),
+                        new EnglishReplacementTypos(word, keyboard))),
                 FoundFromWebByOneWord::new,
                 new ResultMy());
     }
