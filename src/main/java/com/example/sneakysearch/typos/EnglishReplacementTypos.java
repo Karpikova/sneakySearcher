@@ -8,18 +8,18 @@ import java.util.Map;
 import java.util.Set;
 
 public final class EnglishReplacementTypos implements Typos {
-    private final String initialWord;
+    private final String word;
     private final Keyboard keyboard;
 
-    public EnglishReplacementTypos(String initialWord, Keyboard keyboard) {
-        this.initialWord = initialWord;
+    public EnglishReplacementTypos(String word, Keyboard keyboard) {
+        this.word = word;
         this.keyboard = keyboard;
     }
 
     @Override
     public Set<String> value() { //TODO проверка на слишком длинное слово. Да и вообще на то, что на вход пришло одно слово
         final Map<Character, String> lettersWithEnglishAnalogues = keyboard.lettersWithEnglishAnalogues();
-        final Boolean[] lettersHavingEngAnalogue = initialWord.chars().mapToObj(lt -> (char) lt).
+        final Boolean[] lettersHavingEngAnalogue = word.chars().mapToObj(lt -> (char) lt).
                 map(lettersWithEnglishAnalogues::containsKey).toArray(Boolean[]::new);
         final List<Boolean[]> shortTemplatesForEngAnalogueLetters = shortTemplatesForEngAnalogueLetters(lettersHavingEngAnalogue);
         final List<Boolean[]> templates = templates(shortTemplatesForEngAnalogueLetters, lettersHavingEngAnalogue);
@@ -32,7 +32,7 @@ public final class EnglishReplacementTypos implements Typos {
         final StringBuilder wordSb = new StringBuilder();
         for (Boolean[] template : templates) {
             for (int i = 0; i < template.length; i++) {
-                final String originalLetter = initialWord.substring(i, i+1);
+                final String originalLetter = word.substring(i, i+1);
                 final Character originalLetterChar = originalLetter.charAt(0);
                 wordSb.append(
                         template[i] ? lettersWithEnglishAnalogues.get(originalLetterChar) : originalLetter
@@ -48,7 +48,7 @@ public final class EnglishReplacementTypos implements Typos {
     private List<Boolean[]> templates(List<Boolean[]> sequenceShortBoolTemplates, Boolean[] lettersHavingEngAnalogue) {
         final List<Boolean[]> boolTemplates = new ArrayList<>();
         for (Boolean[] ssbt : sequenceShortBoolTemplates) {
-            final Boolean[] bt = new Boolean[initialWord.length()];
+            final Boolean[] bt = new Boolean[word.length()];
             int j = 0;
             for (int i = 0; i < bt.length; i++) {
                 bt[i] = lettersHavingEngAnalogue[i] ? ssbt[j++] : false; //заменяем только единицы

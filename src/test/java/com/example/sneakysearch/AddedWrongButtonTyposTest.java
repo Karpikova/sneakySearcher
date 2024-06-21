@@ -1,11 +1,13 @@
 package com.example.sneakysearch;
 
-import com.example.sneakysearch.typos.AddedWrongButtonTypos;
 import com.example.sneakysearch.typos.RussianKeyboard;
-import org.junit.Assert;
+import com.example.sneakysearch.typos.wrongbutton.AddedWrongButtonTypos;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AddedWrongButtonTyposTest {
 
@@ -13,60 +15,60 @@ public class AddedWrongButtonTyposTest {
     void value(){
         AddedWrongButtonTypos addedWrongButtonTypos = new AddedWrongButtonTypos("кот", new RussianKeyboard());
         Set<String> value = addedWrongButtonTypos.value();
-        Assert.assertEquals(40, value.size()); //а не 42, за счет двух дублей.
+        assertEquals(40, value.size()); //а не 42, за счет двух дублей.
         //"е", "а", "в", "у"
-        Assert.assertTrue(value.contains("еот"));
-        Assert.assertTrue(value.contains("аот"));
-        Assert.assertTrue(value.contains("вот"));
-        Assert.assertTrue(value.contains("уот"));
+        assertTrue(value.contains("еот"));
+        assertTrue(value.contains("аот"));
+        assertTrue(value.contains("вот"));
+        assertTrue(value.contains("уот"));
 
-        Assert.assertTrue(value.contains("кеот"));
-        Assert.assertTrue(value.contains("каот"));
-        Assert.assertTrue(value.contains("квот"));
-        Assert.assertTrue(value.contains("куот"));
+        assertTrue(value.contains("кеот"));
+        assertTrue(value.contains("каот"));
+        assertTrue(value.contains("квот"));
+        assertTrue(value.contains("куот"));
 
-        Assert.assertTrue(value.contains("екот"));
-        Assert.assertTrue(value.contains("акот"));
-        Assert.assertTrue(value.contains("вкот"));
-        Assert.assertTrue(value.contains("укот"));
+        assertTrue(value.contains("екот"));
+        assertTrue(value.contains("акот"));
+        assertTrue(value.contains("вкот"));
+        assertTrue(value.contains("укот"));
 
         //г", "ш", "л", "ь", "т", "р"
-        Assert.assertTrue(value.contains("кгот"));
-        Assert.assertTrue(value.contains("кшот"));
-        Assert.assertTrue(value.contains("клот"));
-        Assert.assertTrue(value.contains("кьот"));
-        Assert.assertTrue(value.contains("ктот"));
-        Assert.assertTrue(value.contains("крот"));
+        assertTrue(value.contains("кгот"));
+        assertTrue(value.contains("кшот"));
+        assertTrue(value.contains("клот"));
+        assertTrue(value.contains("кьот"));
+        assertTrue(value.contains("ктот"));
+        assertTrue(value.contains("крот"));
 
-        Assert.assertTrue(value.contains("кгт"));
-        Assert.assertTrue(value.contains("кшт"));
-        Assert.assertTrue(value.contains("клт"));
-        Assert.assertTrue(value.contains("кьт"));
-        Assert.assertTrue(value.contains("ктт"));
-        Assert.assertTrue(value.contains("крт"));
+        assertTrue(value.contains("кгт"));
+        assertTrue(value.contains("кшт"));
+        assertTrue(value.contains("клт"));
+        assertTrue(value.contains("кьт"));
+        assertTrue(value.contains("ктт"));
+        assertTrue(value.contains("крт"));
 
-        Assert.assertTrue(value.contains("когт"));
-        Assert.assertTrue(value.contains("кошт"));
-        Assert.assertTrue(value.contains("колт"));
-        Assert.assertTrue(value.contains("коьт")); //дважды
-        Assert.assertTrue(value.contains("котт"));
-        Assert.assertTrue(value.contains("корт")); //дважды
+        assertTrue(value.contains("когт"));
+        assertTrue(value.contains("кошт"));
+        assertTrue(value.contains("колт"));
+        assertTrue(value.contains("коьт")); //дважды
+        assertTrue(value.contains("котт"));
+        assertTrue(value.contains("корт")); //дважды
 
         //"и", "р", "о", "ь"
-        Assert.assertTrue(value.contains("коит"));
-        Assert.assertTrue(value.contains("корт")); //дважды
-        Assert.assertTrue(value.contains("коот"));
-        Assert.assertTrue(value.contains("коьт")); //дважды
+        assertTrue(value.contains("коит"));
+        assertTrue(value.contains("корт")); //дважды
+        assertTrue(value.contains("коот"));
+        assertTrue(value.contains("коьт")); //дважды
 
-        Assert.assertTrue(value.contains("кои"));
-        Assert.assertTrue(value.contains("кор"));
-        Assert.assertTrue(value.contains("коо"));
-        Assert.assertTrue(value.contains("коь"));
+        assertTrue(value.contains("кои"));
+        assertTrue(value.contains("кор"));
+        assertTrue(value.contains("коо"));
+        assertTrue(value.contains("коь"));
 
-        Assert.assertTrue(value.contains("коти"));
-        Assert.assertTrue(value.contains("котр"));
-        Assert.assertTrue(value.contains("кото"));
-        Assert.assertTrue(value.contains("коть"));
+        assertTrue(value.contains("коти"));
+        assertTrue(value.contains("котр"));
+        assertTrue(value.contains("кото"));
+        assertTrue(value.contains("коть"));
 
     }
 }

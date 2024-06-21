@@ -2,7 +2,7 @@ package com.example.sneakysearch.excel;
 
 import com.example.sneakysearch.SneakySearchException;
 import com.example.sneakysearch.found.FoundFromWeb;
-import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfWordMy;
+import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfWord;
 import com.example.sneakysearch.result.PurchaseObject;
 import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
@@ -38,7 +38,7 @@ public final class WrittenToExcel implements WrittenToFile {
     }
 
     public WrittenToExcel(String word, Headers headers) {
-        this(new FoundFromWebByAllTypoVariantsOfWordMy(word, new RussianKeyboard()),
+        this(new FoundFromWebByAllTypoVariantsOfWord(word, new RussianKeyboard()),
                 new FileNameInDownloadFolder(word),
                 headers,
                 new XSSFWorkbook());
