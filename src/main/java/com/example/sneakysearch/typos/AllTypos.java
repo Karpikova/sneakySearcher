@@ -1,8 +1,9 @@
 package com.example.sneakysearch.typos;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public final class AllTypos implements JointTypos {
     private final List<Typos> typos;
@@ -12,10 +13,6 @@ public final class AllTypos implements JointTypos {
     }
 
     public Set<String> value() {
-        final Set<String> allTyposTogether = new HashSet<>();
-        for (Typos typo : typos) {
-            allTyposTogether.addAll(typo.value());
-        }
-        return allTyposTogether;
+        return typos.stream().flatMap(t -> t.value().stream()).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }

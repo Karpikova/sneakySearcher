@@ -1,5 +1,8 @@
 package com.example.sneakysearch.typos;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,6 +11,8 @@ import java.util.Map;
 import java.util.Set;
 
 public final class EnglishReplacementTypos implements Typos {
+    private static final Logger LOGGER = LogManager.getLogger(EnglishReplacementTypos.class);
+
     private final String word;
     private final Keyboard keyboard;
 
@@ -41,7 +46,7 @@ public final class EnglishReplacementTypos implements Typos {
             typoWords.add(wordSb.toString());
             wordSb.setLength(0);
         }
-        System.out.println("Замен с английскими буквами — " + typoWords.size());
+        LOGGER.info("Замен с английскими буквами — " + typoWords.size());
         return typoWords;
     }
 

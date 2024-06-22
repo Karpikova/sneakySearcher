@@ -1,17 +1,17 @@
-package com.example.sneakysearch.typos.wrongbutton;
+package com.example.sneakysearch.typos.typo;
 
-public final class WrongButtonBefore implements WrongButton{
+public class DoubleButton implements Typo {
     final String word;
     final int position;
-    final String letter;
 
-    public WrongButtonBefore(String word, int position, String letter) {
+    public DoubleButton(String word, int position) {
         this.word = word;
         this.position = position;
-        this.letter = letter;
     }
+
     @Override
     public String value() {
+        final String letter = word.substring(position, position + 1);
         return new StringBuilder(word).insert(position, letter).toString();
     }
 }
