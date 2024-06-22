@@ -1,6 +1,6 @@
 package com.example.sneakysearch.typos.typo;
 
-public class MixedButtons implements Typo {
+public final class MixedButtons implements Typo {
     final String word;
     final int position;
 

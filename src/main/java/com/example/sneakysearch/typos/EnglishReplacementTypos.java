@@ -12,7 +12,6 @@ import java.util.Set;
 
 public final class EnglishReplacementTypos implements Typos {
     private static final Logger LOGGER = LogManager.getLogger(EnglishReplacementTypos.class);
-
     private final String word;
     private final Keyboard keyboard;
 
@@ -37,7 +36,7 @@ public final class EnglishReplacementTypos implements Typos {
         final StringBuilder wordSb = new StringBuilder();
         for (Boolean[] template : templates) {
             for (int i = 0; i < template.length; i++) {
-                final String originalLetter = word.substring(i, i+1);
+                final String originalLetter = word.substring(i, i + 1);
                 final Character originalLetterChar = originalLetter.charAt(0);
                 wordSb.append(
                         template[i] ? lettersWithEnglishAnalogues.get(originalLetterChar) : originalLetter
