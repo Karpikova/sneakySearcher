@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 public final class EnglishReplacementTypos implements Typos {
     private static final Logger LOGGER = LogManager.getLogger(EnglishReplacementTypos.class);
@@ -23,10 +24,13 @@ public final class EnglishReplacementTypos implements Typos {
     @Override
     public Set<String> value() { //TODO проверка на слишком длинное слово. Да и вообще на то, что на вход пришло одно слово
         final Map<Character, String> lettersWithEnglishAnalogues = keyboard.lettersWithEnglishAnalogues();
-        final Boolean[] lettersHavingEngAnalogue = word.chars().mapToObj(lt -> (char) lt).
+        final Boolean[] whetherLetterHasEngAnalogue = word.chars().mapToObj(lt -> (char) lt).
                 map(lettersWithEnglishAnalogues::containsKey).toArray(Boolean[]::new);
-        final List<Boolean[]> shortTemplatesForEngAnalogueLetters = shortTemplatesForEngAnalogueLetters(lettersHavingEngAnalogue);
-        final List<Boolean[]> templates = templates(shortTemplatesForEngAnalogueLetters, lettersHavingEngAnalogue);
+        final int countLettersHavingEngAnalogue = (int) Arrays.stream(whetherLetterHasEngAnalogue)
+                .filter(Boolean::booleanValue).count();
+
+        final List<Boolean[]> shortTemplatesForEngAnalogueLetters = sequentialBinaryDigitsFromOneToParam(countLettersHavingEngAnalogue);
+        final List<Boolean[]> templates = templates(shortTemplatesForEngAnalogueLetters, whetherLetterHasEngAnalogue);
         final Set<String> typoWords = typoWordsCreatedByTemplates(templates, lettersWithEnglishAnalogues);
         return typoWords;
     }
@@ -63,34 +67,28 @@ public final class EnglishReplacementTypos implements Typos {
     }
 
 
-    private List<Boolean[]> shortTemplatesForEngAnalogueLetters(Boolean[] whatLettersHaveEngAnalogue) {
-        final int countLettersHavingEngAnalogue = (int) Arrays.stream(whatLettersHaveEngAnalogue)
-                .filter(Boolean::booleanValue).count();
-        final List<Boolean[]> boolTemplates = new ArrayList<>();
-        for (int i = 1; i < Math.pow(2, countLettersHavingEngAnalogue); i++) {
-            final char[] resultInChar = addLeadZeros(Integer.toBinaryString(i).toCharArray(), countLettersHavingEngAnalogue);
+    private List<Boolean[]> sequentialBinaryDigitsFromOneToParam(int param) {
+        final List<Boolean[]> binaryDigits = new ArrayList<>();
+        for (int i = 1; i < Math.pow(2, param); i++) {
+            final char[] resultInChar = addLeadZeros(Integer.toBinaryString(i).toCharArray(), param);
             final Boolean[] resultInBool = charToBoolean(resultInChar);
-            boolTemplates.add(resultInBool);
+            binaryDigits.add(resultInBool);
         }
-        return boolTemplates;
+        return binaryDigits;
     }
 
-    private Boolean[] charToBoolean(char[] arrayWithoutLeadZeros) {
-        final int size = arrayWithoutLeadZeros.length;
-        final Boolean[] boolArray = new Boolean[size];
-        for (int i = 0; i < size; i++) {
-            boolArray[i] = arrayWithoutLeadZeros[i] != '0';
-        }
-        return boolArray;
+    private Boolean[] charToBoolean(char[] chars) {
+        return IntStream.range(0, chars.length)
+                .mapToObj(idx -> chars[idx] != '0').toArray(Boolean[]::new);
     }
 
-    private char[] addLeadZeros(char[] arrayWithoutLeadZeros, int countLettersHavingEngAnalogue) {
-        final char[] arrayWithLeadZeros = new char[countLettersHavingEngAnalogue];
-        final int diff = countLettersHavingEngAnalogue - arrayWithoutLeadZeros.length;
+    private char[] addLeadZeros(char[] arrayWithoutLeadZeros, int goalLength) {
+        final char[] arrayWithLeadZeros = new char[goalLength];
+        final int diff = goalLength - arrayWithoutLeadZeros.length;
         for (int i = 0; i < diff; i++) {
             arrayWithLeadZeros[i] = '0';
         }
-        System.arraycopy(arrayWithoutLeadZeros, 0, arrayWithLeadZeros, diff, countLettersHavingEngAnalogue - diff);
+        System.arraycopy(arrayWithoutLeadZeros, 0, arrayWithLeadZeros, diff, goalLength - diff);
         return arrayWithLeadZeros;
     }
 
