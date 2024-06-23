@@ -1,6 +1,6 @@
 package com.example.sneakysearch;
 
-import com.example.sneakysearch.typos.MissedInnerButtonTypos;
+import com.example.sneakysearch.typos.missedbutton.MissedInnerButtonTypos;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,8 +1,6 @@
-package com.example.sneakysearch.typos;
+package com.example.sneakysearch.typos.wrongbutton;
 
-import com.example.sneakysearch.typos.typo.WrongButtonAfter;
-import com.example.sneakysearch.typos.typo.WrongButtonBefore;
-import com.example.sneakysearch.typos.typo.WrongButtonInsteadOf;
+import com.example.sneakysearch.typos.Typos;
 
 import java.util.HashSet;
 import java.util.List;

@@ -1,6 +1,8 @@
-package com.example.sneakysearch.typos.typo;
+package com.example.sneakysearch.typos.missedbutton;
 
-public final class MissedInnerButton implements Typo{
+import com.example.sneakysearch.typos.Typo;
+
+public final class MissedInnerButton implements Typo {
     final String word;
     final int position;
 

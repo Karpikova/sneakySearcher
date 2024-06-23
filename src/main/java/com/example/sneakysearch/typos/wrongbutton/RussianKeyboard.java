@@ -1,4 +1,4 @@
-package com.example.sneakysearch.typos;
+package com.example.sneakysearch.typos.wrongbutton;
 
 import java.util.Arrays;
 import java.util.HashMap;

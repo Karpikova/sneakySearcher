@@ -1,5 +1,7 @@
-package com.example.sneakysearch.typos;
+package com.example.sneakysearch.typos.langreplacement;
 
+import com.example.sneakysearch.typos.Typos;
+import com.example.sneakysearch.typos.wrongbutton.Keyboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

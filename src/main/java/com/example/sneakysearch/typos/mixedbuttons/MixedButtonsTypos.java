@@ -1,6 +1,6 @@
-package com.example.sneakysearch.typos;
+package com.example.sneakysearch.typos.mixedbuttons;
 
-import com.example.sneakysearch.typos.typo.MixedButtons;
+import com.example.sneakysearch.typos.Typos;
 
 import java.util.HashSet;
 import java.util.Set;

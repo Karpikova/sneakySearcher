@@ -8,7 +8,7 @@ import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
 import com.example.sneakysearch.result.file.FileName;
 import com.example.sneakysearch.result.file.FileNameInDownloadFolder;
-import com.example.sneakysearch.typos.RussianKeyboard;
+import com.example.sneakysearch.typos.wrongbutton.RussianKeyboard;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;

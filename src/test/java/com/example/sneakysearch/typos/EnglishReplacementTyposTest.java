@@ -1,5 +1,7 @@
 package com.example.sneakysearch.typos;
 
+import com.example.sneakysearch.typos.langreplacement.EnglishReplacementTypos;
+import com.example.sneakysearch.typos.wrongbutton.RussianKeyboard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

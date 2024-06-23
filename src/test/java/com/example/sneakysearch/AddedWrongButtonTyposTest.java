@@ -1,7 +1,7 @@
 package com.example.sneakysearch;
 
-import com.example.sneakysearch.typos.AddedWrongButtonTypos;
-import com.example.sneakysearch.typos.RussianKeyboard;
+import com.example.sneakysearch.typos.wrongbutton.AddedWrongButtonTypos;
+import com.example.sneakysearch.typos.wrongbutton.RussianKeyboard;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
