@@ -1,8 +1,8 @@
 package com.example.sneakysearch.typos.mixedbuttons;
 
-import com.example.sneakysearch.typos.Typo;
+import com.example.sneakysearch.typos.WordWithTypo;
 
-public final class MixedButtons implements Typo {
+public final class MixedButtons implements WordWithTypo {
     final String word;
     final int position;
 

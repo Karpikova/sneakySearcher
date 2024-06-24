@@ -1,5 +1,5 @@
 package com.example.sneakysearch.typos;
 
-public interface Typo {
+public interface WordWithTypo {
     String value();
 }

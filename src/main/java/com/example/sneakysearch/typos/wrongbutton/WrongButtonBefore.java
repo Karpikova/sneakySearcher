@@ -1,8 +1,8 @@
 package com.example.sneakysearch.typos.wrongbutton;
 
-import com.example.sneakysearch.typos.Typo;
+import com.example.sneakysearch.typos.WordWithTypo;
 
-public final class WrongButtonBefore implements Typo {
+public final class WrongButtonBefore implements WordWithTypo {
     final String word;
     final int position;
     final String letter;

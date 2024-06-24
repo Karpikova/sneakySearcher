@@ -1,8 +1,8 @@
 package com.example.sneakysearch.typos.doublebutton;
 
-import com.example.sneakysearch.typos.Typo;
+import com.example.sneakysearch.typos.WordWithTypo;
 
-public final class DoubleButton implements Typo {
+public final class DoubleButton implements WordWithTypo {
     final String word;
     final int position;
 
