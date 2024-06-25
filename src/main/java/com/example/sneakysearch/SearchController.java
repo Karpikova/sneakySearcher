@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class SearchController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String doSearch(@RequestParam(value = "word") String word, @RequestParam(value = "checkbox") boolean cb) {
+    public String doSearch(@RequestParam(value = "word") String word, @RequestParam(value = "checkbox", required = false) boolean cb) {
         new Thread(() -> {
             try {
                 final WrittenToFile writtenToFile = new WrittenToExcel(
