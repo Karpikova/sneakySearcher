@@ -1,6 +1,5 @@
 body {
     background: #f5f3eb;
-    padding: 0 24px;
     margin: 0;
     height: 100vh;
     color: black;
@@ -9,17 +8,15 @@ body {
     align-items: center;
 }
 
-form {
-    border: 5px solid #f1f1f1;
-}
-input {
+#cbox {
+    color: #5e5d59;
+    padding: 0% 0;
+    margin: 0px 0;
+    font-size: 11px;
+    line-height: 1em;
     width: 100%;
-    padding: 16px 8px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
 }
+
 button {
     background-color: #5e5d59;
     color: white;

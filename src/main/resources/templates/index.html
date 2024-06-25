@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" >
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/static/style.css" th:href="@{/style.css}">
@@ -10,10 +10,19 @@
     <div class="formcontainer">
         <hr/>
         <div class="container">
-            <textarea name="word" rows="5" cols="50" placeholder="Введите одно слово"
+            <textarea name="word" rows="5" cols="50" placeholder="Введите всё, что хотите найти, через запятые. Например: гардасил, менактра"
                       autocomplete="on" minlength="3" required autofocus></textarea>
         </div>
-        <button type="submit">Пуск</button>
+        <div id="cbox">
+            <label class="checkbox">
+                <input type="checkbox"/>
+                <span class="checkmark">Включая подмены на английские буквы. Скорее всего сайт это умеет сам,
+                    <br> поэтому вам нет необходимости отмечать эту галку.</span>
+            </label>
+        </div>
+        <div class="go">
+            <button type="submit">Пуск</button>
+        </div>
     </div>
 </form>
 </body>
