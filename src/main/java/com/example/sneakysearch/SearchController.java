@@ -16,9 +16,9 @@ import java.util.Arrays;
 @Controller
 public class SearchController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String doSearch(@RequestParam(value = "phrase") String phrase, @RequestParam(value = "checkbox", required = false) boolean needEngReplace) {
-        Arrays.stream(phrase.split(",")).forEach
-                (p -> new Thread(() -> {
+    public String doSearch(@RequestParam(value = "phrase") String wholePhrase, @RequestParam(value = "checkbox", required = false) boolean needEngReplace) {
+        Arrays.stream(wholePhrase.split(",")).forEach
+                (phrase -> new Thread(() -> {
                     try {
                         final WrittenToFile writtenToFile = new WrittenToExcel(
                                 (new Trimmed(new Lowered(new TextOf(phrase)))).asString(),
