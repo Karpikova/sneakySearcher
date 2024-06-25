@@ -15,8 +15,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public final class FoundFromWebByOneWord implements FoundFromWeb {
-    private static final Logger LOGGER = LogManager.getLogger(FoundFromWebByOneWord.class);
+public final class FoundFromWebByOnePhrase implements FoundFromWeb {
+    private static final Logger LOGGER = LogManager.getLogger(FoundFromWebByOnePhrase.class);
     private final static String BASE_URL = "https://zakupki.gov.ru";
     private final static String SEARCH_BASE_URL = "/epz/order/extendedsearch/results.html?";
     private final static String ALL_ELEMENTS_TAG = "div.search-registry-entry-block";
@@ -29,13 +29,13 @@ public final class FoundFromWebByOneWord implements FoundFromWeb {
     private final Result result;
     private final ToResultLink toResultLink;
 
-    public FoundFromWebByOneWord(String word, Result result, ToResultLink toResultLink) {
+    public FoundFromWebByOnePhrase(String word, Result result, ToResultLink toResultLink) {
         this.word = word;
         this.result = result;
         this.toResultLink = toResultLink;
     }
 
-    public FoundFromWebByOneWord(String word) {
+    public FoundFromWebByOnePhrase(String word) {
         this(word,
                 new ResultMy(),
                 ResultLinkWithPurchaseObject::new);

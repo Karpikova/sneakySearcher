@@ -4,16 +4,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class FileNameInDownloadFolder implements FileName {
-    private final String word;
+    private final String phrase;
 
-    public FileNameInDownloadFolder(String word) {
-        this.word = word;
+    public FileNameInDownloadFolder(String phrase) {
+        this.phrase = phrase;
     }
 
     @Override
     public String value() {
         final String home = System.getProperty("user.home");
         final String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-        return home + "/Downloads/" + word + "_" + timeStamp + ".xls";
+        return home + "/Downloads/" + phrase + "_" + timeStamp + ".xls";
     }
 }

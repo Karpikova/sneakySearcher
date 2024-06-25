@@ -3,16 +3,16 @@ package com.example.sneakysearch.typos.missedbutton;
 import com.example.sneakysearch.typos.WordWithTypo;
 
 public final class MissedInnerButton implements WordWithTypo {
-    final String word;
+    final String phrase;
     final int position;
 
-    public MissedInnerButton(String word, int position) {
-        this.word = word;
+    public MissedInnerButton(String phrase, int position) {
+        this.phrase = phrase;
         this.position = position;
     }
 
     @Override
     public String value() {
-        return word.substring(0, position) + word.substring(position + 1);
+        return phrase.substring(0, position) + phrase.substring(position + 1);
     }
 }

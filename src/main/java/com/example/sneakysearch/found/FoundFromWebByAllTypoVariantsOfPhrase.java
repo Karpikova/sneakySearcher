@@ -15,36 +15,36 @@ import com.example.sneakysearch.typos.wrongbutton.Keyboard;
 import java.util.List;
 import java.util.Set;
 
-public final class FoundFromWebByAllTypoVariantsOfWord implements FoundFromWeb {
+public final class FoundFromWebByAllTypoVariantsOfPhrase implements FoundFromWeb {
     private final JointTypos allTypoVariantsIncludeWord;
     private final Result result;
-    private final ToFoundFromWebByOneWord toFoundFromWebByOneWord;
+    private final ToFoundFromWebByOnePhrase toFoundFromWebByOnePhrase;
 
-    public FoundFromWebByAllTypoVariantsOfWord(JointTypos allTypoVariantsIncludeWord,
-                                               ToFoundFromWebByOneWord toFoundFromWebByOneWord,
-                                               Result result) {
+    public FoundFromWebByAllTypoVariantsOfPhrase(JointTypos allTypoVariantsIncludeWord,
+                                                 ToFoundFromWebByOnePhrase toFoundFromWebByOnePhrase,
+                                                 Result result) {
         this.allTypoVariantsIncludeWord = allTypoVariantsIncludeWord;
-        this.toFoundFromWebByOneWord = toFoundFromWebByOneWord;
+        this.toFoundFromWebByOnePhrase = toFoundFromWebByOnePhrase;
         this.result = result;
     }
 
-    public FoundFromWebByAllTypoVariantsOfWord(String word, Keyboard keyboard) {
+    public FoundFromWebByAllTypoVariantsOfPhrase(String phrase, Keyboard keyboard) {
         this(new AllTypos(List.of(
-                        () -> Set.of(word),
-                        new AddedWrongButtonTypos(word, keyboard),
-                        new MixedButtonsTypos(word),
-                        new DoubleButtonTypos(word),
-                        new MissedInnerButtonTypos(word),
-                        new EnglishReplacementTypos(word, keyboard))),
-                FoundFromWebByOneWord::new,
+                        () -> Set.of(phrase),
+                        new AddedWrongButtonTypos(phrase, keyboard),
+                        new MixedButtonsTypos(phrase),
+                        new DoubleButtonTypos(phrase),
+                        new MissedInnerButtonTypos(phrase),
+                        new EnglishReplacementTypos(phrase, keyboard))),
+                FoundFromWebByOnePhrase::new,
                 new ResultMy());
     }
 
     @Override
     public Result foundFromWeb() throws SneakySearchException {
-        final Set<String> words = allTypoVariantsIncludeWord.value();
-        for (String word : words) {
-            final FoundFromWeb foundFromWeb = toFoundFromWebByOneWord.foundFromWebByWord(word);
+        final Set<String> phrases = allTypoVariantsIncludeWord.value();
+        for (String phrase : phrases) {
+            final FoundFromWeb foundFromWeb = toFoundFromWebByOnePhrase.foundFromWebByPhrase(phrase);
             final Result foundFromWebResult = foundFromWeb.foundFromWeb();
             result.addLinks(foundFromWebResult.resultLinks());
         }

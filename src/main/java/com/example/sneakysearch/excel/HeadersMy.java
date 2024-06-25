@@ -17,7 +17,7 @@ public final class HeadersMy implements Headers {
     }
 
     @Override
-    public List<String> headers() {
+    public List<String> value() {
         return headers;
     }
 }

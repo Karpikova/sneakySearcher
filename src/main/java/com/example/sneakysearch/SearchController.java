@@ -5,25 +5,29 @@ import com.example.sneakysearch.excel.WrittenToExcel;
 import com.example.sneakysearch.excel.WrittenToFile;
 import org.cactoos.text.Lowered;
 import org.cactoos.text.TextOf;
+import org.cactoos.text.Trimmed;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
+
 @Controller
 public class SearchController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String doSearch(@RequestParam(value = "word") String word, @RequestParam(value = "checkbox", required = false) boolean cb) {
-        new Thread(() -> {
-            try {
-                final WrittenToFile writtenToFile = new WrittenToExcel(
-                        (new Lowered(new TextOf(word))).asString(),
-                        new HeadersMy());
-                writtenToFile.writeToFile();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
+    public String doSearch(@RequestParam(value = "phrase") String phrase, @RequestParam(value = "checkbox", required = false) boolean needEngReplace) {
+        Arrays.stream(phrase.split(",")).forEach
+                (p -> new Thread(() -> {
+                    try {
+                        final WrittenToFile writtenToFile = new WrittenToExcel(
+                                (new Trimmed(new Lowered(new TextOf(phrase)))).asString(),
+                                new HeadersMy());
+                        writtenToFile.writeToFile();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }).start());
         return "result";
     }
 }

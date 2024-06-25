@@ -2,7 +2,7 @@ package com.example.sneakysearch.excel;
 
 import com.example.sneakysearch.SneakySearchException;
 import com.example.sneakysearch.found.FoundFromWeb;
-import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfWord;
+import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfPhrase;
 import com.example.sneakysearch.result.PurchaseObject;
 import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
@@ -38,7 +38,7 @@ public final class WrittenToExcel implements WrittenToFile {
     }
 
     public WrittenToExcel(String word, Headers headers) {
-        this(new FoundFromWebByAllTypoVariantsOfWord(word, new RussianKeyboard()),
+        this(new FoundFromWebByAllTypoVariantsOfPhrase(word, new RussianKeyboard()),
                 new FileNameInDownloadFolder(word),
                 headers,
                 new XSSFWorkbook());
@@ -67,7 +67,7 @@ public final class WrittenToExcel implements WrittenToFile {
 
     private void createLinksSheet(Set<ResultLink> resultLinks) {
         final Sheet sheet = workbook.createSheet("Result");
-        createHeaderRow(sheet, headers.headers());
+        createHeaderRow(sheet, headers.value());
 
         int rowIndex = 1;
         for (ResultLink resultLink : resultLinks) {
@@ -103,7 +103,7 @@ public final class WrittenToExcel implements WrittenToFile {
         final PurchaseObject purchaseObject = resultLink.purchaseObject();
 
         Cell cell = row.createCell(0);
-        cell.setCellValue(resultLink.searchedWord());
+        cell.setCellValue(resultLink.searchedPhrase());
 
         cell = row.createCell(1);
         cell.setCellValue(resultLink.link());

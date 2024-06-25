@@ -14,18 +14,18 @@ import java.util.Set;
 
 public final class EnglishReplacementTypos implements Typos {
     private static final Logger LOGGER = LogManager.getLogger(EnglishReplacementTypos.class);
-    private final String word;
+    private final String phrase;
     private final Keyboard keyboard;
 
-    public EnglishReplacementTypos(String word, Keyboard keyboard) {
-        this.word = word;
+    public EnglishReplacementTypos(String phrase, Keyboard keyboard) {
+        this.phrase = phrase;
         this.keyboard = keyboard;
     }
 
     @Override
     public Set<String> value() { //TODO проверка на слишком длинное слово. Да и вообще на то, что на вход пришло одно слово
         final Map<Character, String> lettersWithEngAnalogues = keyboard.lettersWithEnglishAnalogues();
-        final Boolean[] whetherWordLetterHasEngAnalogue = word.chars().mapToObj(lt -> (char) lt).
+        final Boolean[] whetherWordLetterHasEngAnalogue = phrase.chars().mapToObj(lt -> (char) lt).
                 map(lettersWithEngAnalogues::containsKey).toArray(Boolean[]::new);
         final int countWordLettersHavingEngAnalogue = (int) Arrays.stream(whetherWordLetterHasEngAnalogue)
                 .filter(Boolean::booleanValue).count();
@@ -40,7 +40,7 @@ public final class EnglishReplacementTypos implements Typos {
         final StringBuilder sb = new StringBuilder();
         for (Boolean[] template : templates) {
             for (int i = 0; i < template.length; i++) {
-                final Character originalLetter = word.substring(i, i + 1).charAt(0);
+                final Character originalLetter = phrase.substring(i, i + 1).charAt(0);
                 sb.append(
                         template[i] ? lettersWithEnglishAnalogues.get(originalLetter) : originalLetter
                 );
@@ -55,7 +55,7 @@ public final class EnglishReplacementTypos implements Typos {
     private List<Boolean[]> templates(List<Boolean[]> sequentialBinaryDigits, Boolean[] whetherLetterHasEngAnalogue) {
         final List<Boolean[]> boolTemplates = new ArrayList<>();
         for (Boolean[] sbd : sequentialBinaryDigits) {
-            final Boolean[] bt = new Boolean[word.length()];
+            final Boolean[] bt = new Boolean[phrase.length()];
             int j = 0;
             for (int i = 0; i < bt.length; i++) {
                 bt[i] = whetherLetterHasEngAnalogue[i] ? sbd[j++] : false; //заменяем только единицы

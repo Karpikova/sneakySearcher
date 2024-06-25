@@ -4,17 +4,17 @@ import java.util.Objects;
 
 public final class ResultLinkWithPurchaseObject implements ResultLink {
     private final PurchaseObject purchaseObject;
-    private final String searchedWord;
+    private final String phrase;
     private final String link;
 
-    public ResultLinkWithPurchaseObject(PurchaseObject purchaseObject, String searchedWord, String link) {
+    public ResultLinkWithPurchaseObject(PurchaseObject purchaseObject, String phrase, String link) {
         this.purchaseObject = purchaseObject;
-        this.searchedWord = searchedWord;
+        this.phrase = phrase;
         this.link = link;
     }
 
-    public ResultLinkWithPurchaseObject(String word, String purchaseObject, String number, String customer, String link) {
-        this(new PurchaseObjectMy(purchaseObject, number, customer), word, link);
+    public ResultLinkWithPurchaseObject(String phrase, String purchaseObject, String number, String customer, String link) {
+        this(new PurchaseObjectMy(purchaseObject, number, customer), phrase, link);
     }
 
     @Override
@@ -36,8 +36,8 @@ public final class ResultLinkWithPurchaseObject implements ResultLink {
     }
 
     @Override
-    public String searchedWord() {
-        return searchedWord;
+    public String searchedPhrase() {
+        return phrase;
     }
 
     @Override

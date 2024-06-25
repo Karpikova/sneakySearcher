@@ -9,28 +9,28 @@ import java.util.Set;
 
 public final class AddedWrongButtonTypos implements Typos {
 
-    private final String word;
+    private final String phrase;
     private final Keyboard keyboard;
 
-    public AddedWrongButtonTypos(String word, Keyboard keyboard) {
-        this.word = word;
+    public AddedWrongButtonTypos(String phrase, Keyboard keyboard) {
+        this.phrase = phrase;
         this.keyboard = keyboard;
     }
 
     @Override
     public Set<String> value() {
-        final Set<String> typoWords = new HashSet<>();
+        final Set<String> typoPhrases = new HashSet<>();
         final Map<String, List<String>> lettersWithNeighbours = keyboard.lettersWithNeighbours();
-        for (int i = 0; i < word.length(); i++) {
-            final List<String> neighbours = lettersWithNeighbours.getOrDefault(word.substring(i, i + 1), List.of());
+        for (int i = 0; i < phrase.length(); i++) {
+            final List<String> neighbours = lettersWithNeighbours.getOrDefault(phrase.substring(i, i + 1), List.of());
             for (String neigh : neighbours) {
-                typoWords.add(new WrongButtonInsteadOf(word, i, neigh).value());
-                typoWords.add(new WrongButtonBefore(word, i, neigh).value());
-                typoWords.add(new WrongButtonAfter(word, i, neigh).value());
+                typoPhrases.add(new WrongButtonInsteadOf(phrase, i, neigh).value());
+                typoPhrases.add(new WrongButtonBefore(phrase, i, neigh).value());
+                typoPhrases.add(new WrongButtonAfter(phrase, i, neigh).value());
             }
         }
-        typoWords.forEach(System.out::println);
-        return typoWords;
+        typoPhrases.forEach(System.out::println);
+        return typoPhrases;
     }
 
 }

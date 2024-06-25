@@ -8,7 +8,7 @@ body {
     align-items: center;
 }
 
-span {
+#checkmark {
     color: #5e5d59;
     padding: 0% 0;
     margin: 0px 0;
