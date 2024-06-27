@@ -28,6 +28,10 @@ public final class FoundFromWebByAllTypoVariantsOfPhrase implements FoundFromWeb
         this.result = result;
     }
 
+    public FoundFromWebByAllTypoVariantsOfPhrase(JointTypos allTypoVariantsIncludeWord) {
+        this(allTypoVariantsIncludeWord, FoundFromWebByOnePhrase::new, new ResultMy());
+    }
+
     public FoundFromWebByAllTypoVariantsOfPhrase(String phrase, Keyboard keyboard) {
         this(new AllTypos(List.of(
                         () -> Set.of(phrase),
@@ -35,9 +39,7 @@ public final class FoundFromWebByAllTypoVariantsOfPhrase implements FoundFromWeb
                         new MixedButtonsTypos(phrase),
                         new DoubleButtonTypos(phrase),
                         new MissedInnerButtonTypos(phrase),
-                        new EnglishReplacementTypos(phrase, keyboard))),
-                FoundFromWebByOnePhrase::new,
-                new ResultMy());
+                        new EnglishReplacementTypos(phrase, keyboard))));
     }
 
     @Override

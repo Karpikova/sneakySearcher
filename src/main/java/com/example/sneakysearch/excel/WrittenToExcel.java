@@ -25,7 +25,7 @@ import java.util.Set;
 
 public final class WrittenToExcel implements WrittenToFile {
     private final FoundFromWeb foundFromWebByAllTypoVariantsOfWord;
-    private final FileName fileName;
+    private final FileName fileName; //объединить эту парочку?
     private final Headers headers;
     private final Workbook workbook;
 
@@ -37,11 +37,17 @@ public final class WrittenToExcel implements WrittenToFile {
         this.workbook = workbook;
     }
 
-    public WrittenToExcel(String word, Headers headers) {
-        this(new FoundFromWebByAllTypoVariantsOfPhrase(word, new RussianKeyboard()),
-                new FileNameInDownloadFolder(word),
-                headers,
+    public WrittenToExcel(FoundFromWeb foundFromWebByAllTypoVariantsOfWord, String phrase) {
+        this(foundFromWebByAllTypoVariantsOfWord,
+                new FileNameInDownloadFolder(phrase),
+                new HeadersMy(),
                 new XSSFWorkbook());
+
+    }
+
+    public WrittenToExcel(String phrase) {
+        this(new FoundFromWebByAllTypoVariantsOfPhrase(phrase, new RussianKeyboard()),
+                phrase);
     }
 
     @Override
@@ -55,14 +61,12 @@ public final class WrittenToExcel implements WrittenToFile {
             createMistakesSheet(e);
         }
 
-
         try (OutputStream outputStream = new FileOutputStream(fileName.value())) {
             workbook.write(outputStream);
         } catch (Exception e) {
             System.out.println(e);
             throw new SneakySearchException("FileOutputStream problem");
         }
-
     }
 
     private void createLinksSheet(Set<ResultLink> resultLinks) {
