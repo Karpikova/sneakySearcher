@@ -24,7 +24,7 @@ import java.util.Set;
 @Controller
 public class SearchController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String doSearch(@RequestParam(value = "phrase") String wholePhrase, @RequestParam(value = "checkbox", required = false) boolean needEngReplace) {
+    public String doSearch(@RequestParam(value = "wholePhrase") String wholePhrase, @RequestParam(value = "checkbox", required = false) boolean needEngReplace) {
         Arrays.stream(wholePhrase.split(",")).forEach
                 (phrase -> new Thread(() -> {
                     try {
