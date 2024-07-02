@@ -29,9 +29,8 @@ public final class EnglishReplacementTypos implements Typos {
                 map(lettersWithEngAnalogues::containsKey).toArray(Boolean[]::new);
         final int countWordLettersHavingEngAnalogue = (int) Arrays.stream(whetherWordLetterHasEngAnalogue)
                 .filter(Boolean::booleanValue).count();
-        final List<Boolean[]> sequentialBinaryDigits = new SequentialBinaryDigitsFromOneToParamMy
-                (countWordLettersHavingEngAnalogue).value();
-        final List<Boolean[]> templates = templates(sequentialBinaryDigits, whetherWordLetterHasEngAnalogue);
+        final List<Boolean[]> sBinaryDigits = new SequentialBinaryDigitsMy( countWordLettersHavingEngAnalogue).withoutZero();
+        final List<Boolean[]> templates = templates(sBinaryDigits, whetherWordLetterHasEngAnalogue);
         return typoWordsCreatedByTemplates(templates, lettersWithEngAnalogues);
     }
 
