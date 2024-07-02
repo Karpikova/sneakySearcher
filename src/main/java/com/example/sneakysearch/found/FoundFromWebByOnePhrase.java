@@ -16,6 +16,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public final class FoundFromWebByOnePhrase implements FoundFromWeb {
+    private final String word;
+    private final Result result;
+    private final ToResultLink toResultLink;
     private static final Logger LOGGER = LogManager.getLogger(FoundFromWebByOnePhrase.class);
     private final static String BASE_URL = "https://zakupki.gov.ru";
     private final static String SEARCH_BASE_URL = "/epz/order/extendedsearch/results.html?";
@@ -24,10 +27,6 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
     private final static String PURCHASE_NUMBER_TAG = "div.registry-entry__header-mid__number";
     private final static String PURCHASE_CUSTOMER_TAG = "div.registry-entry__body-href";
     private final static String LINK_TAG = "div.registry-entry__header-mid__number > a";
-    private final static int MAX_TRY_COUNT_OF_ONE_PAGE = 10;
-    private final String word;
-    private final Result result;
-    private final ToResultLink toResultLink;
 
     public FoundFromWebByOnePhrase(String word, Result result, ToResultLink toResultLink) {
         this.word = word;
