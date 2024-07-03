@@ -100,8 +100,8 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
 
     private String createUrl(int page) {
         return BASE_URL + SEARCH_BASE_URL + "searchString=" + word +
-                "&morphology=on" + //сортировка
-                "&search-filter=%D0%94%D0%B0%D1%82%D0%B5+%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%89%D0%B5%D0%BD%D0%B8%D1%8F" + //сортировка
+                "&morphology=on" +
+                "&search-filter=%D0%94%D0%B0%D1%82%D0%B5+%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%89%D0%B5%D0%BD%D0%B8%D1%8F" +
                 "&pageNumber=" + page +
                 "&sortDirection=false" +
                 "&recordsPerPage=_50" +
@@ -109,7 +109,7 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
                 "&sortBy=UPDATE_DATE" +
                 "&fz44=on" +
                 "&fz223=on" +
-                "&pc=on" +
+                "&pc=on&af=on&ca=on&pa=on" +
                 "&currencyIdGeneral=-1";
     }
 }
