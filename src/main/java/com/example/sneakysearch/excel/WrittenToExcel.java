@@ -120,6 +120,9 @@ public final class WrittenToExcel implements WrittenToFile {
 
         cell = row.createCell(4);
         cell.setCellValue(purchaseObject.customer());
+
+        cell = row.createCell(5);
+        cell.setCellValue(purchaseObject.formattedDate());
     }
 
     private void createNewMistakeRow(String text, Sheet sheet, int iRow) {

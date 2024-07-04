@@ -15,6 +15,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public final class FoundFromWebByOnePhrase implements FoundFromWeb {
     private final String word;
     private final Result result;
@@ -26,6 +29,7 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
     private final static String PURCHASE_OBJECT_TAG = "div.registry-entry__body-value";
     private final static String PURCHASE_NUMBER_TAG = "div.registry-entry__header-mid__number";
     private final static String PURCHASE_CUSTOMER_TAG = "div.registry-entry__body-href";
+    private final static String PURCHASE_DATE_TAG = "div.data-block__value";
     private final static String LINK_TAG = "div.registry-entry__header-mid__number > a";
 
     public FoundFromWebByOnePhrase(String word, Result result, ToResultLink toResultLink) {
@@ -35,9 +39,7 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
     }
 
     public FoundFromWebByOnePhrase(String word) {
-        this(word,
-                new ResultMy(),
-                ResultLinkWithPurchaseObject::new);
+        this(word, new ResultMy(), ResultLinkWithPurchaseObject::new);
     }
 
     @Override
@@ -70,8 +72,9 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
         final String name = purchase.select(PURCHASE_OBJECT_TAG).text();
         final String number = purchase.select(PURCHASE_NUMBER_TAG).text();
         final String customer = purchase.select(PURCHASE_CUSTOMER_TAG).text();
+        final LocalDate date = LocalDate.parse(purchase.select(PURCHASE_DATE_TAG).get(1).text(), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         final String link = BASE_URL + purchase.select(LINK_TAG).first().attr("href");
-        final ResultLink resultLink = toResultLink.resultLink(word, name, number, customer, link);
+        final ResultLink resultLink = toResultLink.resultLink(word, name, number, customer, link, date);
         result.addLink(resultLink);
         printToConsole(resultLink);
     }

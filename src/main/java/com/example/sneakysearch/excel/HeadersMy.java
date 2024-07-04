@@ -12,7 +12,8 @@ public final class HeadersMy implements Headers {
                 "Ссылка",
                 "Номер",
                 "Объект закупки",
-                "Клиент"
+                "Клиент",
+                "Дата обновления"
                 ));
     }
 
