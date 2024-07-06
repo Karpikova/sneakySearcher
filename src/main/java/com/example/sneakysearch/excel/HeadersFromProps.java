@@ -10,15 +10,17 @@ import java.util.Properties;
 
 public final class HeadersFromProps implements Headers {
     private final String propNameOfHeaders;
+    private final String appFile;
 
-    public HeadersFromProps(String propNameOfHeaders) {
+    public HeadersFromProps(String propNameOfHeaders, String appFile) {
         this.propNameOfHeaders = propNameOfHeaders;
+        this.appFile = appFile;
     }
 
     @Override
     public List<Header> value() throws SneakySearchException {
         String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        String file = rootPath + "application.yaml";
+        String file = rootPath + appFile;
 
         Properties appProps = new Properties();
         try (FileInputStream fis = new FileInputStream(file)) {
