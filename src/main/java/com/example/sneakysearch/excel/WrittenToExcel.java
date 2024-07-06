@@ -9,6 +9,8 @@ import com.example.sneakysearch.result.ResultLink;
 import com.example.sneakysearch.result.file.FileName;
 import com.example.sneakysearch.result.file.FileNameInDownloadFolder;
 import com.example.sneakysearch.typos.wrongbutton.RussianKeyboard;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -20,43 +22,46 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class WrittenToExcel implements WrittenToFile {
+    private static final Logger LOGGER = LogManager.getLogger(WrittenToExcel.class);
+    private static String RESULT_SHEET_NAME = "Result";
+    private static String MISTAKE_SHEET_NAME = "Mistake";
     private final FoundFromWeb foundFromWebByAllTypoVariantsOfWord;
-    private final FileName fileName; //объединить эту парочку?
-    private final Headers headers;
+    private final FileName fileName;
+    private final List<Header> headers;
     private final Workbook workbook;
 
-    public WrittenToExcel(FoundFromWeb foundFromWebByAllTypoVariantsOfWord,
-                          FileName fileName, Headers headers, Workbook workbook) {
+    public WrittenToExcel(FoundFromWeb foundFromWebByAllTypoVariantsOfWord, FileName fileName, List<Header> headers, Workbook workbook) {
         this.foundFromWebByAllTypoVariantsOfWord = foundFromWebByAllTypoVariantsOfWord;
         this.fileName = fileName;
         this.headers = headers;
         this.workbook = workbook;
     }
 
-    public WrittenToExcel(FoundFromWeb foundFromWebByAllTypoVariantsOfWord, String phrase) {
+    public WrittenToExcel(FoundFromWeb foundFromWebByAllTypoVariantsOfWord, List<Header> headers, String phrase) {
         this(foundFromWebByAllTypoVariantsOfWord,
                 new FileNameInDownloadFolder(phrase),
-                new HeadersMy(),
+                headers,
                 new XSSFWorkbook());
 
     }
 
-    public WrittenToExcel(String phrase) {
-        this(new FoundFromWebByAllTypoVariantsOfPhrase(phrase, new RussianKeyboard()),
-                phrase);
+    public WrittenToExcel( List<Header> headers, String phrase) {
+        this(new FoundFromWebByAllTypoVariantsOfPhrase(phrase, new RussianKeyboard()), headers, phrase);
     }
 
     @Override
-    public void writeToFile() throws SneakySearchException {
+    public void writeToFile() throws SneakySearchException { //TODO test
         try {
             final Result result = foundFromWebByAllTypoVariantsOfWord.foundFromWeb();
             final Set<ResultLink> resultLinks = result.resultLinks();
+            LOGGER.info("Result contains links: " + resultLinks.size());
             createLinksSheet(resultLinks);
-            System.out.println(resultLinks.size());
         } catch (SneakySearchException e) {
             createMistakesSheet(e);
         }
@@ -64,41 +69,45 @@ public final class WrittenToExcel implements WrittenToFile {
         try (OutputStream outputStream = new FileOutputStream(fileName.value())) {
             workbook.write(outputStream);
         } catch (Exception e) {
-            System.out.println(e);
             throw new SneakySearchException("FileOutputStream problem");
         }
     }
 
     private void createLinksSheet(Set<ResultLink> resultLinks) {
-        final Sheet sheet = workbook.createSheet("Result");
-        createHeaderRow(sheet, headers.value());
+        final Sheet sheet = workbook.createSheet(RESULT_SHEET_NAME);
+        createHeaderRow(sheet, headers);
+       // setColumnWidth(sheet);
+        createLinkRows(resultLinks, sheet);
+    }
 
-        int rowIndex = 1;
-        for (ResultLink resultLink : resultLinks) {
-            createNewLinkRow(sheet, rowIndex, resultLink);
-            rowIndex++;
-        }
-
-        setAutoSizeColumns(sheet, resultLinks);
+    private void createLinkRows(Set<ResultLink> resultLinks, Sheet sheet) {
+        final AtomicInteger rowIndex = new AtomicInteger(1);
+        resultLinks.forEach(rl -> createNewLinkRow(sheet, rowIndex.getAndIncrement(), rl));
     }
 
     private void createMistakesSheet(Exception e) {
-        final Sheet sheet = workbook.createSheet("Mistakes");
+        final Sheet sheet = workbook.createSheet(MISTAKE_SHEET_NAME);
         final StackTraceElement[] stackTrace = e.getStackTrace();
-        printDetailedMessage(e, sheet);
-        printStackTrace(stackTrace, sheet);
-    }
-
-    private void printDetailedMessage(Exception e, Sheet sheet) {
         createNewMistakeRow(e.getMessage(), sheet, 0);
+        printStackTraceToSheet(stackTrace, sheet);
     }
 
-    private void printStackTrace(StackTraceElement[] stackTrace, Sheet sheet) {
-        int iRow = 1;
-        for (StackTraceElement ste : stackTrace) {
-            createNewMistakeRow(ste.toString(), sheet, iRow);
-            iRow++;
+    private void createHeaderRow(Sheet sheet, List<Header> headers) {
+        final Row headerRow = sheet.createRow(0);
+        final CellStyle headerCellStyle = createHeaderStyle();
+
+        for (int i = 0; i < headers.size(); i++) {
+            final Header header = headers.get(i);
+            final Cell cell = headerRow.createCell(i);
+            cell.setCellValue(header.caption());
+            cell.setCellStyle(headerCellStyle);
+            sheet.setColumnWidth(i, header.size());
         }
+    }
+
+    private void printStackTraceToSheet(StackTraceElement[] stackTrace, Sheet sheet) {
+        final AtomicInteger iRow = new AtomicInteger(1);
+        Arrays.stream(stackTrace).forEach(ste -> createNewMistakeRow(ste.toString(), sheet, iRow.getAndIncrement()));
     }
 
     private void createNewLinkRow(Sheet sheet, int rowIndex, ResultLink resultLink) {
@@ -131,17 +140,6 @@ public final class WrittenToExcel implements WrittenToFile {
         cell.setCellValue(text);
     }
 
-
-    private void createHeaderRow(Sheet sheet, List<String> headers) {
-        final Row headerRow = sheet.createRow(0);
-        final CellStyle headerCellStyle = createHeaderStyle();
-
-        for (int i = 0; i < headers.size(); i++) {
-            final Cell cell = headerRow.createCell(i);
-            cell.setCellValue(headers.get(i));
-            cell.setCellStyle(headerCellStyle);
-        }
-    }
 
     private void setAutoSizeColumns(Sheet sheet, Set<ResultLink> resultLinks) {
         for (int i = 0; i < resultLinks.size(); i++) {
