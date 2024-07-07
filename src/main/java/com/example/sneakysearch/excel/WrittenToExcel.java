@@ -28,13 +28,13 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class WrittenToExcel implements WrittenToFile {
-    private static final Logger LOGGER = LogManager.getLogger(WrittenToExcel.class);
-    private static String RESULT_SHEET_NAME = "Result";
-    private static String MISTAKE_SHEET_NAME = "Mistake";
     private final FoundFromWeb foundFromWebByAllTypoVariantsOfWord;
     private final FileName fileName;
     private final List<Header> headers;
     private final Workbook workbook;
+    private static String RESULT_SHEET_NAME = "Result";
+    private static String MISTAKE_SHEET_NAME = "Mistake";
+    private static final Logger LOGGER = LogManager.getLogger(WrittenToExcel.class);
 
     public WrittenToExcel(FoundFromWeb foundFromWebByAllTypoVariantsOfWord, FileName fileName, List<Header> headers, Workbook workbook) {
         this.foundFromWebByAllTypoVariantsOfWord = foundFromWebByAllTypoVariantsOfWord;
@@ -48,7 +48,6 @@ public final class WrittenToExcel implements WrittenToFile {
                 new FileNameInDownloadFolder(phrase),
                 headers,
                 new XSSFWorkbook());
-
     }
 
     public WrittenToExcel(List<Header> headers, String phrase) {
@@ -56,7 +55,7 @@ public final class WrittenToExcel implements WrittenToFile {
     }
 
     @Override
-    public void writeToFile() throws SneakySearchException { //TODO test
+    public void writeToFile() throws SneakySearchException {
         try {
             final Result result = foundFromWebByAllTypoVariantsOfWord.foundFromWeb();
             final Set<ResultLink> resultLinks = result.resultLinks();

@@ -8,9 +8,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-class MixedButtonsTyposTest {
+public class MixedButtonsTyposTest {
 
-    protected Set<String> expected = new HashSet<>(Arrays.asList("окт", "кто"));
+    public static Set<String> expected = new HashSet<>(Arrays.asList("окт", "кто"));
     @Test
     void value(){
         MixedButtonsTypos mixedButtonsTypos = new MixedButtonsTypos("кот");

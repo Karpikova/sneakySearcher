@@ -10,8 +10,8 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class MissedInnerButtonTyposTest {
-    protected Set<String> expected = new HashSet<>(Arrays.asList("кт"));
+public class MissedInnerButtonTyposTest {
+    public static Set<String> expected = new HashSet<>(Arrays.asList("кт"));
     @Test
     void value() {
         MissedInnerButtonTypos mbt = new MissedInnerButtonTypos("кот");
