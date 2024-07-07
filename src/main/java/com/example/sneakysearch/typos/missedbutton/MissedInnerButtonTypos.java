@@ -18,7 +18,6 @@ public final class MissedInnerButtonTypos implements Typos {
         for (int i = 1; i < phrase.length() - 1; i++) {
             typoWords.add(new MissedInnerButton(phrase, i).value());
         }
-        typoWords.forEach(System.out::println);
         return typoWords;
     }
 }

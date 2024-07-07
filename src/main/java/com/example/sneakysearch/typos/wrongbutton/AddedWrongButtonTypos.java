@@ -29,8 +29,6 @@ public final class AddedWrongButtonTypos implements Typos {
                 typoPhrases.add(new WrongButtonAfter(phrase, i, neigh).value());
             }
         }
-        typoPhrases.forEach(System.out::println);
         return typoPhrases;
     }
-
 }

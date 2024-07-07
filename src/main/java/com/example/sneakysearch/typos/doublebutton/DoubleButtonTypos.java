@@ -19,7 +19,6 @@ public final class DoubleButtonTypos implements Typos {
         for (int i = 0; i < word.length(); i++) {
             typoWords.add(new DoubleButton(word, i).value());
         }
-        typoWords.forEach(System.out::println);
         return typoWords;
     }
 }

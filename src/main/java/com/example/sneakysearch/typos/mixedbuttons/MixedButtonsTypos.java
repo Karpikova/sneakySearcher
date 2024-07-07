@@ -18,7 +18,6 @@ public final class MixedButtonsTypos implements Typos {
         for (int i = 0; i < phrase.length() - 1; i++) {
             typoWords.add(new MixedButtons(phrase, i).value());
         }
-        typoWords.forEach(System.out::println);
         return typoWords;
     }
 }
