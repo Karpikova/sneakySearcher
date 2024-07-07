@@ -51,7 +51,7 @@ public final class WrittenToExcel implements WrittenToFile {
 
     }
 
-    public WrittenToExcel( List<Header> headers, String phrase) {
+    public WrittenToExcel(List<Header> headers, String phrase) {
         this(new FoundFromWebByAllTypoVariantsOfPhrase(phrase, new RussianKeyboard()), headers, phrase);
     }
 
@@ -76,7 +76,6 @@ public final class WrittenToExcel implements WrittenToFile {
     private void createLinksSheet(Set<ResultLink> resultLinks) {
         final Sheet sheet = workbook.createSheet(RESULT_SHEET_NAME);
         createHeaderRow(sheet, headers);
-       // setColumnWidth(sheet);
         createLinkRows(resultLinks, sheet);
     }
 

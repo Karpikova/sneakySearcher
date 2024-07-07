@@ -1,4 +1,4 @@
 spring:
   application:
     name: sneakySearch
-headers: Search,5000;Link,11000;Number,4200;Object,7000;Client,9500;Updated,2750
+headers: Search,5000;Link,12000;Number,4400;Object,7000;Client,9500;Updated,2750

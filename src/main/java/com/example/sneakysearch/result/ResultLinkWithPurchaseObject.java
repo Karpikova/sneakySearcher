@@ -3,7 +3,7 @@ package com.example.sneakysearch.result;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public final class ResultLinkWithPurchaseObject implements ResultLink {
+public final class ResultLinkWithPurchaseObject implements ResultLink, Comparable<ResultLinkWithPurchaseObject> {
     private final PurchaseObject purchaseObject;
     private final String phrase;
     private final String link;
@@ -17,6 +17,11 @@ public final class ResultLinkWithPurchaseObject implements ResultLink {
     public ResultLinkWithPurchaseObject
             (String phrase, String purchaseObject, String number, String customer, String link, LocalDate date) {
         this(new PurchaseObjectMy(purchaseObject, number, customer, date), phrase, link);
+    }
+
+    @Override
+    public int compareTo(ResultLinkWithPurchaseObject rwpo) {
+        return rwpo.purchaseObject.date().compareTo(this.purchaseObject().date());
     }
 
     @Override
