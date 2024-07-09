@@ -12,15 +12,17 @@ import java.util.List;
 import java.util.Set;
 
 public class AllTyposTest {
-    private String PHRASE = "кот";
+    private final String PHRASE = "кот";
 
-    @Test
-    void value() {
-        JointTypos real = new AllTypos(List.of(
+    public JointTypos jointTypos(){
+        return new AllTypos(List.of(
                 () -> Set.of(PHRASE),
                 new MixedButtonsTypos(PHRASE),
                 new MissedInnerButtonTypos(PHRASE)));
-        Set<String> realValue = real.value();
+    }
+    @Test
+    void value() {
+        Set<String> realValue = jointTypos().value();
         Set<String> expected = expected();
         Assertions.assertTrue(realValue.containsAll(expected));
         Assertions.assertTrue(expected.containsAll(realValue));
