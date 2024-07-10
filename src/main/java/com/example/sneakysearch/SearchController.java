@@ -33,7 +33,7 @@ public class SearchController {
                     try {
                         final String readyPhrase = (new Trimmed(new Lowered(new TextOf(phrase)))).asString();
                         final List<Header> headers = new HeadersFromProps
-                                ("headers", "application.yaml").value();
+                                ("headers", "application.properties").value();
                         final WrittenToFile writtenToFile = needEngReplace ?
                                 new WrittenToExcel(headers, readyPhrase) :
                                 new WrittenToExcel(
