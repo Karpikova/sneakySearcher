@@ -26,5 +26,4 @@ public class SequentialBinaryDigitsMyTest {
         Assertions.assertArrayEquals(value.get(5), el6);
         Assertions.assertArrayEquals(value.get(6), el7);
     }
-
 }

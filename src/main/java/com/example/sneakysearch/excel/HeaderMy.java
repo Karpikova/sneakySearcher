@@ -1,6 +1,6 @@
 package com.example.sneakysearch.excel;
 
-public class HeaderMy implements Header{
+public class HeaderMy implements Header {
     private final String caption;
     private final int size;
 
