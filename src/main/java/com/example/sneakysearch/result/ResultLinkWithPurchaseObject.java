@@ -21,7 +21,10 @@ public final class ResultLinkWithPurchaseObject implements ResultLink, Comparabl
 
     @Override
     public int compareTo(ResultLinkWithPurchaseObject rwpo) {
-        return rwpo.purchaseObject.date().compareTo(this.purchaseObject().date());
+        int dateComparing = rwpo.purchaseObject.date().compareTo(this.purchaseObject().date());
+        return dateComparing != 0
+                ? dateComparing
+                : rwpo.purchaseObject.number().compareTo(this.purchaseObject().number());
     }
 
     @Override

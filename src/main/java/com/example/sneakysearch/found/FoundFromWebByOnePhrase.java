@@ -82,6 +82,7 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
     private void printToConsole(ResultLink result) {
         final PurchaseObject purchaseObject = result.purchaseObject();
         System.out.println("Объект закупки: " + purchaseObject.name());
+        System.out.println("Номер: " + purchaseObject.number());
         System.out.println("Заказчик: " + purchaseObject.customer());
         System.out.println("Ссылка: " + BASE_URL + result.link());
         System.out.println();

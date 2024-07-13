@@ -1,7 +1,7 @@
 package com.example.sneakysearch;
 
 import com.example.sneakysearch.excel.Header;
-import com.example.sneakysearch.excel.HeadersFromProps;
+import com.example.sneakysearch.excel.HeadersDefault;
 import com.example.sneakysearch.excel.WrittenToExcel;
 import com.example.sneakysearch.excel.WrittenToFile;
 import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfPhrase;
@@ -32,8 +32,7 @@ public class SearchController {
                 (phrase -> new Thread(() -> {
                     try {
                         final String readyPhrase = (new Trimmed(new Lowered(new TextOf(phrase)))).asString();
-                        final List<Header> headers = new HeadersFromProps
-                                ("headers", "application.properties").value();
+                        final List<Header> headers = new HeadersDefault().value();
                         final WrittenToFile writtenToFile = needEngReplace ?
                                 new WrittenToExcel(headers, readyPhrase) :
                                 new WrittenToExcel(
