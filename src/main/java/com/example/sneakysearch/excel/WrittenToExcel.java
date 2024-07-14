@@ -2,13 +2,11 @@ package com.example.sneakysearch.excel;
 
 import com.example.sneakysearch.SneakySearchException;
 import com.example.sneakysearch.found.FoundFromWeb;
-import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfPhrase;
 import com.example.sneakysearch.result.PurchaseObject;
 import com.example.sneakysearch.result.Result;
 import com.example.sneakysearch.result.ResultLink;
 import com.example.sneakysearch.result.file.FileName;
 import com.example.sneakysearch.result.file.FileNameInDownloadFolder;
-import com.example.sneakysearch.typos.wrongbutton.RussianKeyboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
@@ -22,7 +20,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -49,10 +46,6 @@ public final class WrittenToExcel implements WrittenToFile {
                 new FileNameInDownloadFolder(phrase),
                 headers,
                 new XSSFWorkbook());
-    }
-
-    public WrittenToExcel(List<Header> headers, String phrase, LocalDate filterDate) {
-        this(new FoundFromWebByAllTypoVariantsOfPhrase(phrase, filterDate, new RussianKeyboard()), headers, phrase);
     }
 
     @Override

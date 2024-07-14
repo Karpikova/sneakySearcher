@@ -1,12 +1,11 @@
 package com.example.sneakysearch;
 
-import com.example.sneakysearch.excel.Header;
 import com.example.sneakysearch.excel.HeadersDefault;
 import com.example.sneakysearch.excel.WrittenToExcel;
-import com.example.sneakysearch.excel.WrittenToFile;
 import com.example.sneakysearch.found.FoundFromWebByAllTypoVariantsOfPhrase;
 import com.example.sneakysearch.typos.AllTypos;
 import com.example.sneakysearch.typos.doublebutton.DoubleButtonTypos;
+import com.example.sneakysearch.typos.langreplacement.EnglishReplacementTypos;
 import com.example.sneakysearch.typos.missedbutton.MissedInnerButtonTypos;
 import com.example.sneakysearch.typos.mixedbuttons.MixedButtonsTypos;
 import com.example.sneakysearch.typos.wrongbutton.AddedWrongButtonTypos;
@@ -34,23 +33,38 @@ public final class SearchController {
                 (phrase -> new Thread(() -> {
                     try {
                         final String readyPhrase = (new Trimmed(new Lowered(new TextOf(phrase)))).asString();
-                        final List<Header> headers = new HeadersDefault().value();
-                        final WrittenToFile writtenToFile = needEngReplace ?
-                                new WrittenToExcel(headers, readyPhrase, filterDate) :
-                                new WrittenToExcel(
-                                        new FoundFromWebByAllTypoVariantsOfPhrase(filterDate, new AllTypos(List.of(
-                                                () -> Set.of(readyPhrase),
-                                                new AddedWrongButtonTypos(readyPhrase, new RussianKeyboard()),
-                                                new MixedButtonsTypos(readyPhrase),
-                                                new DoubleButtonTypos(readyPhrase),
-                                                new MissedInnerButtonTypos(readyPhrase)))),
-                                        headers,
-                                        readyPhrase);
-                        writtenToFile.writeToFile();
+                        final AllTypos allTypos = needEngReplace ? allTyposWithEngAnalogues(readyPhrase) :
+                                allTyposWithoutEngAnalogues(readyPhrase);
+                        new WrittenToExcel
+                                (new FoundFromWebByAllTypoVariantsOfPhrase(filterDate, allTypos),
+                                        new HeadersDefault().value(),
+                                        readyPhrase)
+                                .writeToFile();
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 }).start());
         return "result";
+    }
+
+    private AllTypos allTyposWithoutEngAnalogues(String readyPhrase) {
+        return new AllTypos(List.of(
+                () -> Set.of(readyPhrase),
+                new AddedWrongButtonTypos(readyPhrase, new RussianKeyboard()),
+                new MixedButtonsTypos(readyPhrase),
+                new DoubleButtonTypos(readyPhrase),
+                new MissedInnerButtonTypos(readyPhrase)));
+    }
+
+
+    private AllTypos allTyposWithEngAnalogues(String readyPhrase) {
+        RussianKeyboard russianKeyboard = new RussianKeyboard();
+        return new AllTypos(List.of(
+                () -> Set.of(readyPhrase),
+                new AddedWrongButtonTypos(readyPhrase, russianKeyboard),
+                new MixedButtonsTypos(readyPhrase),
+                new DoubleButtonTypos(readyPhrase),
+                new MissedInnerButtonTypos(readyPhrase),
+                new EnglishReplacementTypos(readyPhrase, russianKeyboard)));
     }
 }
