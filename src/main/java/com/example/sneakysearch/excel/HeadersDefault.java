@@ -5,7 +5,7 @@ import com.example.sneakysearch.SneakySearchException;
 import java.util.Arrays;
 import java.util.List;
 
-public class HeadersDefault implements Headers {
+public final class HeadersDefault implements Headers {
     @Override
     public List<Header> value() throws SneakySearchException {
         Header search = new HeaderMy("Искали", 5000);

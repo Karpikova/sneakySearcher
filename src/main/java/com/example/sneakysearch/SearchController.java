@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-public class SearchController {
+public final class SearchController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String doSearch(@RequestParam(value = "wholePhrase") String wholePhrase,
                            @RequestParam(value = "checkbox", required = false) boolean needEngReplace) {

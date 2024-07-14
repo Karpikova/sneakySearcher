@@ -3,7 +3,7 @@ package com.example.sneakysearch.result.file;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class FileNameInDownloadFolder implements FileName {
+public final class FileNameInDownloadFolder implements FileName {
     private final String phrase;
     private final static String SYS_PROPERTY = "user.home";
     private final static String DATE_FORMAT = "yyyy-MM-dd_HH-mm-ss";
