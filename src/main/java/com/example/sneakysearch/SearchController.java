@@ -28,7 +28,7 @@ import java.util.Set;
 public final class SearchController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String doSearch(@RequestParam(value = "wholePhrase") String wholePhrase,
-                           @RequestParam(value = "date") LocalDate date,
+                           @RequestParam(value = "filterDate") LocalDate filterDate,
                            @RequestParam(value = "checkbox", required = false) boolean needEngReplace) {
         Arrays.stream(wholePhrase.split(",")).forEach
                 (phrase -> new Thread(() -> {
@@ -36,9 +36,9 @@ public final class SearchController {
                         final String readyPhrase = (new Trimmed(new Lowered(new TextOf(phrase)))).asString();
                         final List<Header> headers = new HeadersDefault().value();
                         final WrittenToFile writtenToFile = needEngReplace ?
-                                new WrittenToExcel(headers, readyPhrase) :
+                                new WrittenToExcel(headers, readyPhrase, filterDate) :
                                 new WrittenToExcel(
-                                        new FoundFromWebByAllTypoVariantsOfPhrase(new AllTypos(List.of(
+                                        new FoundFromWebByAllTypoVariantsOfPhrase(filterDate, new AllTypos(List.of(
                                                 () -> Set.of(readyPhrase),
                                                 new AddedWrongButtonTypos(readyPhrase, new RussianKeyboard()),
                                                 new MixedButtonsTypos(readyPhrase),

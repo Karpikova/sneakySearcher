@@ -16,7 +16,7 @@ public interface FoundFromWeb {
 
     final class Fake implements FoundFromWeb {
 
-        public Fake(String word) {
+        public Fake(String word, LocalDate filterDate) {
         }
 
         @Override

@@ -7,13 +7,17 @@ import com.example.sneakysearch.typos.AllTyposTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Set;
 public class FoundFromWebByAllTypoVariantsOfPhraseTest {
     @Test
     void foundFromWeb() throws SneakySearchException {
-        FoundFromWebByAllTypoVariantsOfPhrase ffw = new FoundFromWebByAllTypoVariantsOfPhrase(new AllTyposTest().jointTypos(),
-                FoundFromWeb.Fake::new, new ResultMy());
-        Set<ResultLink> expected = new FoundFromWeb.Fake("кот").foundFromWeb().resultLinks();
+        LocalDate filterDate = LocalDate.of(2000, 1, 1);
+        FoundFromWebByAllTypoVariantsOfPhrase ffw = new FoundFromWebByAllTypoVariantsOfPhrase(
+                filterDate,
+                new AllTyposTest().jointTypos(), new ResultMy(),
+                FoundFromWeb.Fake::new);
+        Set<ResultLink> expected = new FoundFromWeb.Fake("кот", filterDate).foundFromWeb().resultLinks();
         Set<ResultLink> real = ffw.foundFromWeb().resultLinks();
 
         Assertions.assertTrue(real.containsAll(expected));

@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 
 public final class FoundFromWebByOnePhrase implements FoundFromWeb {
     private final String word;
+    private final LocalDate filterDate;
     private final Result result;
     private final ToResultLink toResultLink;
     private static final Logger LOGGER = LogManager.getLogger(FoundFromWebByOnePhrase.class);
@@ -32,14 +33,15 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
     private final static String PURCHASE_DATE_TAG = "div.data-block__value";
     private final static String LINK_TAG = "div.registry-entry__header-mid__number > a";
 
-    public FoundFromWebByOnePhrase(String word, Result result, ToResultLink toResultLink) {
+    public FoundFromWebByOnePhrase(String word, LocalDate filterDate, Result result, ToResultLink toResultLink) {
         this.word = word;
+        this.filterDate = filterDate;
         this.result = result;
         this.toResultLink = toResultLink;
     }
 
-    public FoundFromWebByOnePhrase(String word) {
-        this(word, new ResultMy(), ResultLinkWithPurchaseObject::new);
+    public FoundFromWebByOnePhrase(String word, LocalDate filterDate) {
+        this(word, filterDate, new ResultMy(), ResultLinkWithPurchaseObject::new);
     }
 
     @Override
@@ -84,7 +86,7 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
         System.out.println("Объект закупки: " + purchaseObject.name());
         System.out.println("Номер: " + purchaseObject.number());
         System.out.println("Заказчик: " + purchaseObject.customer());
-        System.out.println("Ссылка: " + BASE_URL + result.link());
+        System.out.println("Ссылка: " + result.link());
         System.out.println();
     }
 
@@ -114,6 +116,7 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
                 "&fz44=on" +
                 "&fz223=on" +
                 "&pc=on&af=on&ca=on&pa=on" +
-                "&currencyIdGeneral=-1";
+                "&currencyIdGeneral=-1" +
+                "&publishDateFrom=" + filterDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")); //01.01.2024
     }
 }

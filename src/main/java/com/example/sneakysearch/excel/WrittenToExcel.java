@@ -22,6 +22,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -50,8 +51,8 @@ public final class WrittenToExcel implements WrittenToFile {
                 new XSSFWorkbook());
     }
 
-    public WrittenToExcel(List<Header> headers, String phrase) {
-        this(new FoundFromWebByAllTypoVariantsOfPhrase(phrase, new RussianKeyboard()), headers, phrase);
+    public WrittenToExcel(List<Header> headers, String phrase, LocalDate filterDate) {
+        this(new FoundFromWebByAllTypoVariantsOfPhrase(phrase, filterDate, new RussianKeyboard()), headers, phrase);
     }
 
     @Override
