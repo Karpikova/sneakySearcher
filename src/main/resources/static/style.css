@@ -2,8 +2,9 @@ body {
     background: #f5f3eb;
     margin: 0;
     height: 100vh;
-    color: black;
+    color: #5e5d59;
     display: flex;
+    font-size: 16px;
     justify-content: center;
     align-items: center;
 }

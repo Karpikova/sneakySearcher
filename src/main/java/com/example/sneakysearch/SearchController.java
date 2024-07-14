@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +28,7 @@ import java.util.Set;
 public final class SearchController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String doSearch(@RequestParam(value = "wholePhrase") String wholePhrase,
+                           @RequestParam(value = "date") LocalDate date,
                            @RequestParam(value = "checkbox", required = false) boolean needEngReplace) {
         Arrays.stream(wholePhrase.split(",")).forEach
                 (phrase -> new Thread(() -> {
