@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 public final class AllTypos implements JointTypos {
     private final List<Typos> typos;
-
     public AllTypos(List<Typos> typos) {
         this.typos = typos;
     }

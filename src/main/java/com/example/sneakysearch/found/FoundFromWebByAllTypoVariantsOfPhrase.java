@@ -27,9 +27,9 @@ public final class FoundFromWebByAllTypoVariantsOfPhrase implements FoundFromWeb
     }
 
     @Override
-    public Result foundFromWeb() throws SneakySearchException { //TODO test
+    public Result foundFromWeb() throws SneakySearchException {
         final Set<String> phrases = allTypoVariantsIncludeWord.value();
-        for (String phrase : phrases) {
+        for (final String phrase : phrases) {
             final FoundFromWeb foundFromWeb = toFoundFromWebByOnePhrase.foundFromWebByPhrase(phrase, filterDate);
             final Result foundFromWebResult = foundFromWeb.foundFromWeb();
             result.addLinks(foundFromWebResult.resultLinks());

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 public final class RussianKeyboard implements Keyboard {
-
     private final Map<String, List<String>> neighbours;
     private final Map<Character, String> englishAnalogues;
 

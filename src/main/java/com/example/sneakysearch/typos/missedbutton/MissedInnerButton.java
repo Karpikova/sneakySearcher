@@ -3,8 +3,8 @@ package com.example.sneakysearch.typos.missedbutton;
 import com.example.sneakysearch.typos.WordWithTypo;
 
 public final class MissedInnerButton implements WordWithTypo {
-    final String phrase;
-    final int position;
+    private final String phrase;
+    private final int position;
 
     public MissedInnerButton(String phrase, int position) {
         this.phrase = phrase;

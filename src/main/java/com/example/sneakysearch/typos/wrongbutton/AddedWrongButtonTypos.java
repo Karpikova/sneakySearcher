@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 public final class AddedWrongButtonTypos implements Typos {
-
     private final String phrase;
     private final Keyboard keyboard;
 

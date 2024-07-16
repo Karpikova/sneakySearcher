@@ -3,8 +3,8 @@ package com.example.sneakysearch.typos.doublebutton;
 import com.example.sneakysearch.typos.WordWithTypo;
 
 public final class DoubleButton implements WordWithTypo {
-    final String word;
-    final int position;
+    private final String word;
+    private final int position;
 
     public DoubleButton(String word, int position) {
         this.word = word;

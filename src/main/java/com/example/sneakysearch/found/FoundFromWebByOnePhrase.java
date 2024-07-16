@@ -23,7 +23,6 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
     private final LocalDate filterDate;
     private final Result result;
     private final ToResultLink toResultLink;
-    private static final Logger LOGGER = LogManager.getLogger(FoundFromWebByOnePhrase.class);
     private final static String BASE_URL = "https://zakupki.gov.ru";
     private final static String SEARCH_BASE_URL = "/epz/order/extendedsearch/results.html?";
     private final static String ALL_ELEMENTS_TAG = "div.search-registry-entry-block";
@@ -32,6 +31,7 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
     private final static String PURCHASE_CUSTOMER_TAG = "div.registry-entry__body-href";
     private final static String PURCHASE_DATE_TAG = "div.data-block__value";
     private final static String LINK_TAG = "div.registry-entry__header-mid__number > a";
+    private final static Logger LOGGER = LogManager.getLogger(FoundFromWebByOnePhrase.class);
 
     public FoundFromWebByOnePhrase(String word, LocalDate filterDate, Result result, ToResultLink toResultLink) {
         this.word = word;
@@ -60,12 +60,11 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
             }
         }
         while (!endOfSearchIsAchieved);
-
         return result;
     }
 
     private void processSelect(Elements select) {
-        for (Element purchase : select) {
+        for (final Element purchase : select) {
             createResult(purchase);
         }
     }
@@ -74,7 +73,8 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
         final String name = purchase.select(PURCHASE_OBJECT_TAG).text();
         final String number = purchase.select(PURCHASE_NUMBER_TAG).text();
         final String customer = purchase.select(PURCHASE_CUSTOMER_TAG).text();
-        final LocalDate date = LocalDate.parse(purchase.select(PURCHASE_DATE_TAG).get(1).text(), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        final LocalDate date = LocalDate.parse(
+                purchase.select(PURCHASE_DATE_TAG).get(1).text(), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         final String link = BASE_URL + purchase.select(LINK_TAG).first().attr("href");
         final ResultLink resultLink = toResultLink.resultLink(word, name, number, customer, link, date);
         result.addLink(resultLink);
@@ -117,6 +117,6 @@ public final class FoundFromWebByOnePhrase implements FoundFromWeb {
                 "&fz223=on" +
                 "&pc=on&af=on&ca=on&pa=on" +
                 "&currencyIdGeneral=-1" +
-                "&publishDateFrom=" + filterDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")); //01.01.2024
+                "&publishDateFrom=" + filterDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 }

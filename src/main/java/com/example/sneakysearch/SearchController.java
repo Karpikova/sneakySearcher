@@ -58,7 +58,7 @@ public final class SearchController {
 
 
     private AllTypos allTyposWithEngAnalogues(String readyPhrase) {
-        RussianKeyboard russianKeyboard = new RussianKeyboard();
+        final RussianKeyboard russianKeyboard = new RussianKeyboard();
         return new AllTypos(List.of(
                 () -> Set.of(readyPhrase),
                 new AddedWrongButtonTypos(readyPhrase, russianKeyboard),

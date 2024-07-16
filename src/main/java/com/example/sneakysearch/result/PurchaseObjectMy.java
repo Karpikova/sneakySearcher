@@ -4,10 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public final class PurchaseObjectMy implements PurchaseObject {
-    String name;
-    String number;
-    String customer;
-    LocalDate date;
+    private final String name;
+    private final String number;
+    private final String customer;
+    private final LocalDate date;
+    private final static String DATE_PATTERN = "dd.MM.yyyy";
 
     public PurchaseObjectMy(String name, String number, String customer, LocalDate date) {
         this.name = name;
@@ -38,6 +39,6 @@ public final class PurchaseObjectMy implements PurchaseObject {
 
     @Override
     public String formattedDate() {
-        return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        return date.format(DateTimeFormatter.ofPattern(DATE_PATTERN));
     }
 }

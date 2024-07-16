@@ -23,26 +23,26 @@ public final class EnglishReplacementTypos implements Typos {
     }
 
     @Override
-    public Set<String> value() { //TODO проверка на слишком длинное слово. Да и вообще на то, что на вход пришло одно слово
+    public Set<String> value() { //TODO проверка на слишком длинное слово. А надо ли? Вопрос открыт.
         final Map<Character, String> lettersWithEngAnalogues = keyboard.lettersWithEnglishAnalogues();
         final Boolean[] whetherWordLetterHasEngAnalogue = phrase.chars().mapToObj(lt -> (char) lt).
                 map(lettersWithEngAnalogues::containsKey).toArray(Boolean[]::new);
         final int countWordLettersHavingEngAnalogue = (int) Arrays.stream(whetherWordLetterHasEngAnalogue)
                 .filter(Boolean::booleanValue).count();
-        final List<Boolean[]> sBinaryDigits = new SequentialBinaryDigitsMy( countWordLettersHavingEngAnalogue).withoutZero();
+        final List<Boolean[]> sBinaryDigits = new SequentialBinaryDigitsMy(countWordLettersHavingEngAnalogue)
+                .withoutZero();
         final List<Boolean[]> templates = templates(sBinaryDigits, whetherWordLetterHasEngAnalogue);
         return typoWordsCreatedByTemplates(templates, lettersWithEngAnalogues);
     }
 
-    private Set<String> typoWordsCreatedByTemplates(List<Boolean[]> templates, Map<Character, String> lettersWithEnglishAnalogues) {
+    private Set<String> typoWordsCreatedByTemplates(List<Boolean[]> templates,
+                                                    Map<Character, String> lettersWithEnglishAnalogues) {
         final Set<String> typoWords = new HashSet<>();
         final StringBuilder sb = new StringBuilder();
         for (Boolean[] template : templates) {
             for (int i = 0; i < template.length; i++) {
                 final Character originalLetter = phrase.substring(i, i + 1).charAt(0);
-                sb.append(
-                        template[i] ? lettersWithEnglishAnalogues.get(originalLetter) : originalLetter
-                );
+                sb.append(template[i] ? lettersWithEnglishAnalogues.get(originalLetter) : originalLetter);
             }
             typoWords.add(sb.toString());
             sb.setLength(0);

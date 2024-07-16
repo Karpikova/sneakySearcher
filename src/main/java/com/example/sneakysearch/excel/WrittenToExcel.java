@@ -30,8 +30,8 @@ public final class WrittenToExcel implements WrittenToFile {
     private final FileName fileName;
     private final List<Header> headers;
     private final Workbook workbook;
-    private static String RESULT_SHEET_NAME = "Result";
-    private static String MISTAKE_SHEET_NAME = "Mistake";
+    private static final String RESULT_SHEET_NAME = "Result";
+    private static final String MISTAKE_SHEET_NAME = "Mistake";
     private static final Logger LOGGER = LogManager.getLogger(WrittenToExcel.class);
 
     public WrittenToExcel(FoundFromWeb foundFromWebByAllTypoVariantsOfWord, FileName fileName, List<Header> headers, Workbook workbook) {
@@ -59,7 +59,7 @@ public final class WrittenToExcel implements WrittenToFile {
             createMistakesSheet(e);
         }
 
-        try (OutputStream outputStream = new FileOutputStream(fileName.value())) {
+        try (final OutputStream outputStream = new FileOutputStream(fileName.value())) {
             workbook.write(outputStream);
         } catch (Exception e) {
             throw new SneakySearchException("FileOutputStream problem");
@@ -130,13 +130,6 @@ public final class WrittenToExcel implements WrittenToFile {
         final Row row = sheet.createRow(iRow);
         final Cell cell = row.createCell(0);
         cell.setCellValue(text);
-    }
-
-
-    private void setAutoSizeColumns(Sheet sheet, Set<ResultLink> resultLinks) {
-        for (int i = 0; i < resultLinks.size(); i++) {
-            sheet.autoSizeColumn(i);
-        }
     }
 
     private CellStyle createHeaderStyle() {
